@@ -5,11 +5,12 @@ public class SkyjoCard {
       
         private static final Color[] colors = Color.values();
     }
-
+    private boolean revealed;
     private boolean isCleared;
     private final int value;
 
     public SkyjoCard(final int value) {
+        this.revealed = false;
         this.value = value;
     }
     public int getValue() {
@@ -59,6 +60,13 @@ public class SkyjoCard {
     }
     public void setIsCleared(boolean newCleared) {
         this.isCleared = newCleared;
+    }
+
+    public boolean getRevealed() {
+        return this.revealed;
+    }
+    public void revealCard() {
+        this.revealed = true;
     }
 
     public String toString() {
