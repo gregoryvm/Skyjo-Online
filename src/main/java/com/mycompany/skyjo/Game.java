@@ -179,6 +179,10 @@ public class Game {
 
         
     }
+    
+    public SkyjoCard getDiscardTop(){
+        return this.discardPile.get(discardPile.size()-1);
+    }
 
 }
 

@@ -77,4 +77,8 @@ public class SkyjoBoard {
         }
         return returnCards;
     }
+    
+    public SkyjoCard[][] getGrid(){
+        return this.cardGrid;
+    }
 }
