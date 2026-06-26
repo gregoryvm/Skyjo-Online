@@ -32,6 +32,7 @@ public class SkyjoDeck {
 
     public SkyjoDeck() {
         cards = new SkyjoCard[150];
+        
     }
 
     public void reset() {

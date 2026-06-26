@@ -6,15 +6,19 @@ package com.mycompany.skyjo;
 
 import com.mycompany.skyjo.Game.InvalidPlayerTurnException;
 import java.awt.Font;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -42,8 +46,17 @@ public class GameStage extends javax.swing.JFrame {
         populateArrayList();
         game.start(game);
         setPidName();
-        drawCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back.png")));
-        currCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/" + game.getTopCardImage(game.getDiscardTop()) + ".png")));
+        drawCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back4.png"))); // may have to remove getclass().getResource(
+        ImageIcon icon = (ImageIcon) drawCard.getIcon();
+        //currCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Green_3.png"))); // may have to remove getclass().getResource(
+        
+        String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
+
+        currCard.setIcon(new ImageIcon(
+        getClass().getResource("/images/PNGs/" + file)
+        ));
+        
+        System.out.println(("/images/PNGs/" + game.getTopCardImage(game.getDiscardTop())) + ".png");  
         setButtonIcons();
     }
     
@@ -54,9 +67,12 @@ public class GameStage extends javax.swing.JFrame {
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 4; j++){
                if(currGrid[i][j].getRevealed()){
-                   cardButtons.get(i+j).setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/" + currGrid[i][j].toString() + ".png")));
+                   String file = currGrid[i][j].toString() + ".png";
+                    cardButtons.get(i+j).setIcon(new ImageIcon(
+                    getClass().getResource("/images/PNGs/" + file)
+                    ));
                } else {
-                   cardButtons.get(i+j).setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back.png")));
+                   cardButtons.get(i+j).setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back4.png"))); 
                }
                //cardNames[i + j] = currGrid[i][j].toString();
                //listString += currGrid[i][j].toString();
@@ -94,12 +110,12 @@ public class GameStage extends javax.swing.JFrame {
     
     private void cardAction(int index){
         if(cardIds.get(index) != null){
-            String cardId = cardIds.get(index);
-            window = new PopUp(cardId, game, index, cardButtons, this, currCard); // may be wrong
-            window.setBounds(750,40,700,800);
-            window.setVisible(true);
-            window.setResizable(false);
-            window.setDefualtCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            //String cardId = cardIds.get(index);
+            //window = new PopUp(cardId, game, index, cardButtons, this, currCard); // may be wrong
+            //window.setBounds(750,40,700,800);
+            //window.setVisible(true);
+            //window.setResizable(false);
+            //window.setDefualtCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
     }
     /**
@@ -136,52 +152,96 @@ public class GameStage extends javax.swing.JFrame {
 
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
 
-        card1.setText("jButton1");
+        card1.setMaximumSize(new java.awt.Dimension(75, 100));
+        card1.setMinimumSize(new java.awt.Dimension(75, 100));
+        card1.setName(""); // NOI18N
+        card1.setPreferredSize(new java.awt.Dimension(75, 100));
         card1.addActionListener(this::card1ActionPerformed);
 
-        card2.setText("jButton1");
+        card2.setMaximumSize(new java.awt.Dimension(75, 100));
+        card2.setMinimumSize(new java.awt.Dimension(75, 100));
+        card2.setName(""); // NOI18N
+        card2.setPreferredSize(new java.awt.Dimension(75, 100));
         card2.addActionListener(this::card2ActionPerformed);
 
-        card3.setText("jButton1");
+        card3.setMaximumSize(new java.awt.Dimension(75, 100));
+        card3.setMinimumSize(new java.awt.Dimension(75, 100));
+        card3.setName(""); // NOI18N
+        card3.setPreferredSize(new java.awt.Dimension(75, 100));
         card3.addActionListener(this::card3ActionPerformed);
 
-        card4.setText("jButton1");
+        card4.setMaximumSize(new java.awt.Dimension(75, 100));
+        card4.setMinimumSize(new java.awt.Dimension(75, 100));
+        card4.setName(""); // NOI18N
+        card4.setPreferredSize(new java.awt.Dimension(75, 100));
         card4.addActionListener(this::card4ActionPerformed);
 
-        card5.setText("jButton1");
+        card5.setMaximumSize(new java.awt.Dimension(75, 100));
+        card5.setMinimumSize(new java.awt.Dimension(75, 100));
+        card5.setName(""); // NOI18N
+        card5.setPreferredSize(new java.awt.Dimension(75, 100));
         card5.addActionListener(this::card5ActionPerformed);
 
-        card6.setText("jButton1");
+        card6.setMaximumSize(new java.awt.Dimension(75, 100));
+        card6.setMinimumSize(new java.awt.Dimension(75, 100));
+        card6.setName(""); // NOI18N
+        card6.setPreferredSize(new java.awt.Dimension(75, 100));
         card6.addActionListener(this::card6ActionPerformed);
 
-        card7.setText("jButton1");
+        card7.setMaximumSize(new java.awt.Dimension(75, 100));
+        card7.setMinimumSize(new java.awt.Dimension(75, 100));
+        card7.setName(""); // NOI18N
+        card7.setPreferredSize(new java.awt.Dimension(75, 100));
         card7.addActionListener(this::card7ActionPerformed);
 
-        card8.setText("jButton1");
+        card8.setMaximumSize(new java.awt.Dimension(75, 100));
+        card8.setMinimumSize(new java.awt.Dimension(75, 100));
+        card8.setName(""); // NOI18N
+        card8.setPreferredSize(new java.awt.Dimension(75, 100));
         card8.addActionListener(this::card8ActionPerformed);
 
-        card9.setText("jButton1");
+        card9.setMaximumSize(new java.awt.Dimension(75, 100));
+        card9.setMinimumSize(new java.awt.Dimension(75, 100));
+        card9.setName(""); // NOI18N
+        card9.setPreferredSize(new java.awt.Dimension(75, 100));
         card9.addActionListener(this::card9ActionPerformed);
 
-        card10.setText("jButton1");
+        card10.setMaximumSize(new java.awt.Dimension(75, 100));
+        card10.setMinimumSize(new java.awt.Dimension(75, 100));
+        card10.setName(""); // NOI18N
+        card10.setPreferredSize(new java.awt.Dimension(75, 100));
         card10.addActionListener(this::card10ActionPerformed);
 
-        card11.setText("jButton1");
+        card11.setMaximumSize(new java.awt.Dimension(75, 100));
+        card11.setMinimumSize(new java.awt.Dimension(75, 100));
+        card11.setName(""); // NOI18N
+        card11.setPreferredSize(new java.awt.Dimension(75, 100));
         card11.addActionListener(this::card11ActionPerformed);
 
-        card12.setText("jButton1");
+        card12.setMaximumSize(new java.awt.Dimension(75, 100));
+        card12.setMinimumSize(new java.awt.Dimension(75, 100));
+        card12.setName(""); // NOI18N
+        card12.setPreferredSize(new java.awt.Dimension(75, 100));
         card12.addActionListener(this::card12ActionPerformed);
 
         playerLabel.setFont(new java.awt.Font("Rockwell", 0, 48)); // NOI18N
         playerLabel.setText("gdfsgfdgdfgss's Cards");
 
-        currCard.setText("currCard");
+        currCard.setMaximumSize(new java.awt.Dimension(75, 100));
+        currCard.setMinimumSize(new java.awt.Dimension(75, 100));
+        currCard.setPreferredSize(new java.awt.Dimension(75, 100));
 
         swapButton.setText("SWAP");
 
         flipButton.setText("FLIP");
 
-        drawCard.setText("drawCard");
+        drawCard.setAlignmentY(0.0F);
+        drawCard.setIconTextGap(0);
+        drawCard.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        drawCard.setMaximumSize(new java.awt.Dimension(75, 100));
+        drawCard.setMinimumSize(new java.awt.Dimension(75, 100));
+        drawCard.setPreferredSize(new java.awt.Dimension(75, 100));
+        drawCard.addActionListener(this::drawCardActionPerformed);
 
         drawButton.setText("DRAW");
         drawButton.addActionListener(this::drawButtonActionPerformed);
@@ -191,44 +251,43 @@ public class GameStage extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(drawCard, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(drawButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(drawButton)
+                            .addComponent(drawCard, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(currCard)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(swapButton)
-                                .addComponent(flipButton)))
-                        .addGap(51, 51, 51)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(swapButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(flipButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(currCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(79, 79, 79)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(card1)
+                                .addComponent(card1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card2)
+                                .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card3)
+                                .addComponent(card3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card4))
+                                .addComponent(card4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(card5)
+                                .addComponent(card5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card6)
+                                .addComponent(card6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card7)
+                                .addComponent(card7, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card8))
+                                .addComponent(card8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(card9)
+                                .addComponent(card9, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card10)
+                                .addComponent(card10, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card11)
+                                .addComponent(card11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card12)))
+                                .addComponent(card12, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(239, 239, 239))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(playerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,9 +312,9 @@ public class GameStage extends javax.swing.JFrame {
                             .addComponent(card7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(currCard, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(drawCard, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(currCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(drawCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(swapButton)
@@ -277,7 +336,7 @@ public class GameStage extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 901, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,6 +406,10 @@ public class GameStage extends javax.swing.JFrame {
     private void card12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card12ActionPerformed
         cardAction(11);
     }//GEN-LAST:event_card12ActionPerformed
+
+    private void drawCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_drawCardActionPerformed
 
     /**
      * @param args the command line arguments

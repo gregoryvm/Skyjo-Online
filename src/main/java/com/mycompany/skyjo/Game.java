@@ -25,7 +25,9 @@ public class Game {
 
     public Game(String[] pids) {
         deck = new SkyjoDeck();
+        deck.reset(); // potential fix?   
         deck.shuffle();
+        //System.out.println(deck.drawCard());
         discardPile = new ArrayList<SkyjoCard>();
 
         playerIds = pids;
@@ -33,6 +35,7 @@ public class Game {
         finalTurn = false;
         turnsRemaining = 99999; // No countdown on turns remaining until first player is out
         playerBoards = new ArrayList<SkyjoBoard>();
+        scores = new int[pids.length];
 
         for(int i = 0; i < pids.length; i++) {
             SkyjoBoard board = new SkyjoBoard(deck);

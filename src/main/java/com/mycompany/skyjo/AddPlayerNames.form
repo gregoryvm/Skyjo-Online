@@ -40,33 +40,22 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="141" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="pid2Label" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="saveButton" min="-2" pref="101" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="doneButton" min="-2" pref="100" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jLabel1" pref="502" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="pid1Label" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="pidTextBox" min="-2" pref="292" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="pid4Label" min="-2" max="-2" attributes="0"/>
-                                          <Component id="pid3Label" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="saveButton" min="-2" pref="101" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="doneButton" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jLabel1" alignment="0" pref="502" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="pidTextBox" min="-2" pref="292" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="pid1Label" alignment="0" max="32767" attributes="0"/>
+                      <Component id="pid2Label" alignment="0" max="32767" attributes="0"/>
+                      <Component id="pid3Label" alignment="0" max="32767" attributes="0"/>
+                      <Component id="pid4Label" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
               </Group>
@@ -82,17 +71,15 @@
                       <Component id="pidTextBox" pref="28" max="32767" attributes="0"/>
                       <Component id="jLabel2" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="pid1Label" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="pid3Label" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="pid2Label" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="pid4Label" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="88" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="pid1Label" min="-2" pref="33" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="pid2Label" min="-2" pref="33" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="pid3Label" min="-2" pref="33" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="pid4Label" min="-2" pref="33" max="-2" attributes="0"/>
+                  <EmptySpace pref="76" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="saveButton" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="doneButton" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>

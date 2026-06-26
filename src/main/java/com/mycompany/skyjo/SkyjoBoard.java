@@ -10,6 +10,7 @@ public class SkyjoBoard {
     private SkyjoCard[][] cardGrid;
 
     public SkyjoBoard(SkyjoDeck deck) {
+        this.cardGrid = new SkyjoCard[3][4];
         for(int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 cardGrid[i][j] = deck.drawCard();
