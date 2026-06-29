@@ -122,6 +122,7 @@ public class Game {
 
         // Draw a card and place on discard pile, current player chooses what to do with this card (swap or flip)
         SkyjoCard card = deck.drawCard();
+        System.out.println(card);
         card.revealCard();
         discardPile.add(card);
     }

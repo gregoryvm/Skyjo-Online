@@ -31,9 +31,11 @@ public class GameStage extends javax.swing.JFrame {
         ArrayList<String> temp = new ArrayList<>();
         String[] pids;
         Game game;
-        ArrayList<JButton> cardButtons = new ArrayList<JButton>();
+        ArrayList<JButton> cardButtons = new ArrayList<JButton>();   
         ArrayList<String> cardIds;
         PopUp window;
+        boolean swapFlag;
+        boolean hasDrawn;
     
     public GameStage() {
     }
@@ -56,27 +58,37 @@ public class GameStage extends javax.swing.JFrame {
         getClass().getResource("/images/PNGs/" + file)
         ));
         
-        System.out.println(("/images/PNGs/" + game.getTopCardImage(game.getDiscardTop())) + ".png");  
+        
         setButtonIcons();
+        swapFlag = false;
+        hasDrawn = false;    // make sure player draws a card before flipping
     }
     
     public void setButtonIcons(){
         //String listString = ""; //is this ever used?
         SkyjoCard[][] currGrid = game.getPlayerBoard(game.getCurrentPlayer()).getGrid();
+        System.out.println(game.getCurrentPlayer());
         //String[] cardNames = new String[12];
+        int counter = 0;
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 4; j++){
-               if(currGrid[i][j].getRevealed()){
-                   String file = currGrid[i][j].toString() + ".png";
-                    cardButtons.get(i+j).setIcon(new ImageIcon(
-                    getClass().getResource("/images/PNGs/" + file)
-                    ));
+               if(currGrid[i][j].getIsCleared()){
+                   cardButtons.get(counter).setVisible(false);
                } else {
-                   cardButtons.get(i+j).setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back4.png"))); 
+                cardButtons.get(counter).setVisible(true);
+                if(currGrid[i][j].getRevealed()){
+                    String file = currGrid[i][j].toString() + ".png";
+                     cardButtons.get(counter).setIcon(new ImageIcon(
+                     getClass().getResource("/images/PNGs/" + file)
+                     ));
+                } else {
+                    cardButtons.get(counter).setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back4.png"))); 
+                }
                }
                //cardNames[i + j] = currGrid[i][j].toString();
                //listString += currGrid[i][j].toString();
                //listString += ",";
+               counter = counter + 1;
             }
         }
         
@@ -109,14 +121,39 @@ public class GameStage extends javax.swing.JFrame {
     }
     
     private void cardAction(int index){
-        if(cardIds.get(index) != null){
-            //String cardId = cardIds.get(index);
-            //window = new PopUp(cardId, game, index, cardButtons, this, currCard); // may be wrong
-            //window.setBounds(750,40,700,800);
-            //window.setVisible(true);
-            //window.setResizable(false);
-            //window.setDefualtCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        }
+        SkyjoCard[][] currGrid = game.getPlayerBoard(game.getCurrentPlayer()).getGrid();
+        int rowIndex = (index / 4);
+        int colIndex = (index % 4);
+        
+        if(currGrid[rowIndex][colIndex].getRevealed() && swapFlag == false){
+            JLabel message = new JLabel("You cannot flip a revealed card!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
+        } else if(swapFlag == false && hasDrawn == false) {
+            JLabel message = new JLabel("You must draw before flipping!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
+        } else {
+            try {
+                game.submitAction(game.getCurrentPlayer(), colIndex, rowIndex, swapFlag);       
+                String file = currGrid[rowIndex][colIndex] + ".png";
+                cardButtons.get(index).setIcon(new ImageIcon(
+                getClass().getResource("/images/PNGs/" + file)
+                ));
+            } catch(InvalidPlayerTurnException e) {
+                Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE,null,e);
+            }
+            swapFlag = false;
+            hasDrawn = false;
+            drawButton.setVisible(true);
+            this.setPidName(game.getCurrentPlayer());
+            setButtonIcons();
+            String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
+
+            currCard.setIcon(new ImageIcon(
+            getClass().getResource("/images/PNGs/" + file)
+            ));
+        } 
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -232,8 +269,10 @@ public class GameStage extends javax.swing.JFrame {
         currCard.setPreferredSize(new java.awt.Dimension(75, 100));
 
         swapButton.setText("SWAP");
+        swapButton.addActionListener(this::swapButtonActionPerformed);
 
         flipButton.setText("FLIP");
+        flipButton.addActionListener(this::flipButtonActionPerformed);
 
         drawCard.setAlignmentY(0.0F);
         drawCard.setIconTextGap(0);
@@ -347,16 +386,18 @@ public class GameStage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void drawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawButtonActionPerformed
-        JLabel message = new JLabel(game.getCurrentPlayer() + " draw a card!");
-        message.setFont(new Font("Arial",Font.BOLD,48));
-        JOptionPane.showMessageDialog(null, message);
         try {
             game.submitDraw(game.getCurrentPlayer());
         } catch(InvalidPlayerTurnException e) {
             Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE,null,e);
         }
-        this.setPidName(game.getCurrentPlayer());
-        this.setButtonIcons();
+        String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
+
+        currCard.setIcon(new ImageIcon(
+        getClass().getResource("/images/PNGs/" + file)
+        ));
+        drawButton.setVisible(false);
+        hasDrawn = true;
     }//GEN-LAST:event_drawButtonActionPerformed
 
     private void card1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card1ActionPerformed
@@ -410,6 +451,14 @@ public class GameStage extends javax.swing.JFrame {
     private void drawCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_drawCardActionPerformed
+
+    private void swapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_swapButtonActionPerformed
+        swapFlag = true;
+    }//GEN-LAST:event_swapButtonActionPerformed
+
+    private void flipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flipButtonActionPerformed
+        swapFlag = false;
+    }//GEN-LAST:event_flipButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -34,7 +34,9 @@ public class SkyjoBoard {
         score = 0;
         for(int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                score += cardGrid[i][j].getValue();
+                if(cardGrid[i][j].getIsCleared() == false){
+                    score += cardGrid[i][j].getValue();
+                }               
             }
         }
         return score;
@@ -57,13 +59,14 @@ public class SkyjoBoard {
     // if they do all match those cards are cleared from their board and one of the
     // matching cards is returned. 
     public ArrayList<SkyjoCard> columnCleared() {
+        System.out.println(getScore());
         ArrayList<SkyjoCard> returnCards = new ArrayList<SkyjoCard>();
         boolean matching;
         for(int i = 0; i < 4; i++) {
             matching = true;
             int currValue = cardGrid[0][i].getValue();
             for(int j = 1; j < 3; j++) {
-                if(cardGrid[j][i].getValue() != currValue || cardGrid[j][i].getRevealed() == false) {
+                if(cardGrid[j][i].getValue() != currValue || cardGrid[j][i].getRevealed() == false || cardGrid[j][i].getIsCleared()) {
                     matching = false;
                 } 
                 if(matching && j == 2) {

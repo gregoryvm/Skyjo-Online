@@ -377,11 +377,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="SWAP"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="swapButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="flipButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="FLIP"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="flipButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="drawCard">
           <Properties>
