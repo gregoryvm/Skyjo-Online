@@ -41,12 +41,26 @@ public class SkyjoBoard {
         }
         return score;
     }
+    
+    public int getRevealedScore() {
+        int score;
+        score = 0;
+        for(int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(cardGrid[i][j].getIsCleared() == false && cardGrid[i][j].getRevealed() == true){
+                    score += cardGrid[i][j].getValue();
+                }               
+            }
+        }
+        return score;
+    }
 
     // This function takes a given card, adds it to the specified position on
     // the player board, then returns the card previously in that position. 
     public SkyjoCard swapCard(SkyjoCard card, int column, int row) {
         SkyjoCard toDiscard = cardGrid[row][column];
         toDiscard.revealCard();
+        card.revealCard();
         cardGrid[row][column] = card;
         return toDiscard;
     }
@@ -84,5 +98,18 @@ public class SkyjoBoard {
     
     public SkyjoCard[][] getGrid(){
         return this.cardGrid;
+    }
+    
+    public int revealedCount() {
+        int count;
+        count = 0;
+        for(int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(cardGrid[i][j].getRevealed() == true){
+                    count += 1;
+                }               
+            }
+        }
+        return count;
     }
 }

@@ -15,12 +15,15 @@ import java.awt.Font;
 public class Game {
     private int currentPlayer;
     private String[] playerIds;
-    private int[] scores;
+    private int[] roundScores;
+    private int[] gameScores;
     private int turnsRemaining;
     private SkyjoDeck deck;
     private ArrayList<SkyjoCard> discardPile;
     private ArrayList<SkyjoBoard> playerBoards;
     private boolean finalTurn;
+    private int turnCount;
+    private int roundCount;
     //private SkyjoCard currCard;
 
     public Game(String[] pids) {
@@ -32,15 +35,18 @@ public class Game {
 
         playerIds = pids;
         currentPlayer = 0;
+        setTurnCount(1);
+        roundCount = 0;
         finalTurn = false;
         turnsRemaining = 99999; // No countdown on turns remaining until first player is out
         playerBoards = new ArrayList<SkyjoBoard>();
-        scores = new int[pids.length];
-
+        roundScores = new int[pids.length];
+        gameScores = new int[pids.length];
         for(int i = 0; i < pids.length; i++) {
             SkyjoBoard board = new SkyjoBoard(deck);
             playerBoards.add(board);
-            scores[i] = 0;
+            roundScores[i] = 0;
+            gameScores[i] = 0;
         }
     }
 
@@ -62,7 +68,7 @@ public class Game {
 
     public boolean isGameOver() {
         for (int i = 0; i < playerIds.length; i++) {
-            if (scores[i] >= 100) {
+            if (gameScores[i] >= 100) {
                 return true;
             }
         }
@@ -155,18 +161,40 @@ public class Game {
                 discardPile.add(swappedCards.get(2));
             }
         finalTurn = isRoundEnding();
-        turnsRemaining--;
-
+        System.out.println(getTurnCount() + " = " + (currentPlayer + 1));
+        System.out.println("Turns remaining = " + turnsRemaining);
         if(turnsRemaining == 0) {
-            // Sum total scores 
+            // Sum total scores
+            for (int i = 0; i < playerIds.length; i++) {
+                gameScores[i] += roundScores[i];
+                roundScores[i] = 0;
+            }
             if(isGameOver()) {
             // Check who has the lowest score, declare who won.
+            int index = 0;
+            int lowestScore = gameScores[0];
+            for(int i = 0; i < playerIds.length; i++) {
+                if(gameScores[i] < lowestScore) {
+                    lowestScore = gameScores[i];
+                    index = i;
+                }     
+            }
+            
+            JLabel message = new JLabel(playerIds[index] + " has won the game!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
             } else {
+                startNewRound();
             // Increment the round count, reset the boards while retaining overall score and resetting round score?
             // Set the player's turn to the player with the highest score
             }
+        } else if(((getTurnCount() / (currentPlayer + 1)) == 1) && board.revealedCount() < 2) {
+            // If it's a player's first turn, let them flip two cards
+            
         } else {
             currentPlayer = (currentPlayer + 1) % playerIds.length;
+            turnsRemaining--;
+            setTurnCount(getTurnCount() + 1);
         }
     }
 
@@ -187,6 +215,67 @@ public class Game {
     public SkyjoCard getDiscardTop(){
         return this.discardPile.get(discardPile.size()-1);
     }
+    
+    public int getTurnCount() {
+        return this.turnCount;
+    }
+    
+    public void setTurnCount(int value) {
+        this.turnCount = value;
+    }
+    
+    public int getCurrentPlayerVal() {
+        return this.currentPlayer;
+    }
+    
+    public void startNewRound() {
+        int index;
+        System.out.println("In startNewRound!");
+        // If both players flipped 2 cards
+        if((getTurnCount() / (currentPlayer + 1)) > 1) {
+            // If it's the first round, turn order determined by sum of 2 revealed cards
+            // (the player with the highest sum starts)
+            SkyjoBoard highestBoard = playerBoards.get(0);
+            index = 0;
+            if(roundCount == 0) {
+                for (int i = 0; i < playerIds.length; i++) {
+                    SkyjoBoard currBoard = playerBoards.get(i);
+                    if(currBoard.getRevealedScore() > highestBoard.getRevealedScore()) {
+                        highestBoard = currBoard;
+                        index = i;
+                    }
+                }
+                currentPlayer = index;
+            // Otherwise, the player with the highest overall score starts
+            } else {
+                int highestScore = gameScores[0];
+                index = 0;
+                for (int i = 0; i < playerIds.length; i++) {
+                    if(gameScores[i] > highestScore) {
+                        highestScore = gameScores[i];
+                        index = i;
+                    }
+                    // Reset the player board for the new round
+                    SkyjoBoard board = new SkyjoBoard(deck);
+                    playerBoards.set(i, board);
+                    roundScores[i] = 0;
 
+                }
+                deck.reset(); // potential fix?   
+                deck.shuffle();
+                discardPile = new ArrayList<SkyjoCard>();
+                currentPlayer = index;
+                SkyjoCard card = deck.drawCard();
+                discardPile.add(card);
+                JLabel message = new JLabel("Round # " + roundCount + 1 + " has begun!");
+                message.setFont(new Font("Arial",Font.BOLD,48));
+                JOptionPane.showMessageDialog(null, message);
+            }        
+        }
+        roundCount += 1;
+    }
+    public int getRoundCount() {
+        return this.roundCount;
+    }
 }
 

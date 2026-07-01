@@ -122,26 +122,42 @@ public class GameStage extends javax.swing.JFrame {
     
     private void cardAction(int index){
         SkyjoCard[][] currGrid = game.getPlayerBoard(game.getCurrentPlayer()).getGrid();
+        SkyjoBoard currBoard = game.getPlayerBoard(game.getCurrentPlayer());
         int rowIndex = (index / 4);
         int colIndex = (index % 4);
-        
+        int playerIndex = game.getCurrentPlayerVal();
         if(currGrid[rowIndex][colIndex].getRevealed() && swapFlag == false){
             JLabel message = new JLabel("You cannot flip a revealed card!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
-        } else if(swapFlag == false && hasDrawn == false) {
+        } else if(swapFlag == false && hasDrawn == false && (currBoard.revealedCount() >= 2)) {
             JLabel message = new JLabel("You must draw before flipping!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
+        } else if(currBoard.revealedCount() < 2 && swapFlag) {
+            JLabel message = new JLabel("You must flip until you have 2 cards revealed!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
         } else {
             try {
-                game.submitAction(game.getCurrentPlayer(), colIndex, rowIndex, swapFlag);       
+                if((game.getTurnCount() / (game.getCurrentPlayerVal() + 1)) == 1) {
+                    game.submitAction(game.getCurrentPlayer(), colIndex, rowIndex, false);  
+                } else {
+                    game.submitAction(game.getCurrentPlayer(), colIndex, rowIndex, swapFlag);            
+                }
                 String file = currGrid[rowIndex][colIndex] + ".png";
                 cardButtons.get(index).setIcon(new ImageIcon(
                 getClass().getResource("/images/PNGs/" + file)
                 ));
             } catch(InvalidPlayerTurnException e) {
                 Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE,null,e);
+            }
+            System.out.println("current player index = " + playerIndex);
+            System.out.println("turn count = " + game.getTurnCount());
+            System.out.println((playerIndex == game.getPlayers().length - 1) + "," + (currBoard.revealedCount() == 2));
+            // If the last player has flipped their two cards, start the game according to determined turn order.
+            if((playerIndex == game.getPlayers().length - 1) && (currBoard.revealedCount() == 2)) {
+                game.startNewRound();
             }
             swapFlag = false;
             hasDrawn = false;
@@ -386,18 +402,25 @@ public class GameStage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void drawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawButtonActionPerformed
-        try {
-            game.submitDraw(game.getCurrentPlayer());
-        } catch(InvalidPlayerTurnException e) {
-            Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE,null,e);
-        }
-        String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
+        SkyjoBoard currBoard = game.getPlayerBoard(game.getCurrentPlayer());
+        if(currBoard.revealedCount() < 2){
+            JLabel message = new JLabel("You must flip until you have 2 cards revealed!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
+        } else {
+            try {
+                game.submitDraw(game.getCurrentPlayer());
+            } catch(InvalidPlayerTurnException e) {
+                Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE,null,e);
+            }
+            String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
 
-        currCard.setIcon(new ImageIcon(
-        getClass().getResource("/images/PNGs/" + file)
-        ));
-        drawButton.setVisible(false);
-        hasDrawn = true;
+            currCard.setIcon(new ImageIcon(
+            getClass().getResource("/images/PNGs/" + file)
+            ));
+            drawButton.setVisible(false);
+            hasDrawn = true;
+        }
     }//GEN-LAST:event_drawButtonActionPerformed
 
     private void card1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_card1ActionPerformed
