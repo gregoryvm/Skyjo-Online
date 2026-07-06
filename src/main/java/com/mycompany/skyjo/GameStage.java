@@ -72,7 +72,18 @@ public class GameStage extends javax.swing.JFrame {
         int counter = 0;
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 4; j++){
+                System.out.printf(
+                "%s [%d,%d] value=%d revealed=%b cleared=%b id=%d%n",
+                game.getCurrentPlayer(),
+                i,
+                j,
+                currGrid[i][j].getValue(),
+                currGrid[i][j].getRevealed(),
+                currGrid[i][j].getIsCleared(),
+                System.identityHashCode(currGrid[i][j])
+); 
                if(currGrid[i][j].getIsCleared()){
+                   System.out.println("button #" + counter + " set invisible");
                    cardButtons.get(counter).setVisible(false);
                } else {
                 cardButtons.get(counter).setVisible(true);
@@ -125,6 +136,7 @@ public class GameStage extends javax.swing.JFrame {
         SkyjoBoard currBoard = game.getPlayerBoard(game.getCurrentPlayer());
         int rowIndex = (index / 4);
         int colIndex = (index % 4);
+        System.out.println("Clicked row=" + rowIndex + " col=" + colIndex);
         int playerIndex = game.getCurrentPlayerVal();
         if(currGrid[rowIndex][colIndex].getRevealed() && swapFlag == false){
             JLabel message = new JLabel("You cannot flip a revealed card!");

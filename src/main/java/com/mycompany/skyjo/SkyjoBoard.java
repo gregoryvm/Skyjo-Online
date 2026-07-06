@@ -57,13 +57,23 @@ public class SkyjoBoard {
 
     // This function takes a given card, adds it to the specified position on
     // the player board, then returns the card previously in that position. 
-    public SkyjoCard swapCard(SkyjoCard card, int column, int row) {
-        SkyjoCard toDiscard = cardGrid[row][column];
-        toDiscard.revealCard();
-        card.revealCard();
-        cardGrid[row][column] = card;
-        return toDiscard;
-    }
+    public SkyjoCard swapCard(SkyjoCard card, int col, int row) {
+    SkyjoCard toDiscard = cardGrid[row][col];
+
+    System.out.println(
+        "Replacing [" + row + "," + col + "] " +
+        "old value=" + toDiscard.getValue() +
+        " old id=" + System.identityHashCode(toDiscard) +
+        " new value=" + card.getValue() +
+        " new id=" + System.identityHashCode(card)
+    );
+
+    toDiscard.revealCard();
+    card.revealCard();
+    cardGrid[row][col] = card;
+
+    return toDiscard;
+}
 
     public void flipCard(int column, int row) {
         cardGrid[row][column].revealCard();
@@ -79,11 +89,12 @@ public class SkyjoBoard {
         for(int i = 0; i < 4; i++) {
             matching = true;
             int currValue = cardGrid[0][i].getValue();
-            for(int j = 1; j < 3; j++) {
-                if(cardGrid[j][i].getValue() != currValue || cardGrid[j][i].getRevealed() == false || cardGrid[j][i].getIsCleared()) {
+            for(int j = 0; j < 3; j++) {
+                if(cardGrid[j][i].getValue() != currValue || !cardGrid[j][i].getRevealed() || cardGrid[j][i].getIsCleared()) {
                     matching = false;
                 } 
                 if(matching && j == 2) {
+                    System.out.print("ROW #" + i + " GOT CLEARED!");
                     returnCards.add(cardGrid[0][i]);
                     returnCards.add(cardGrid[1][i]);
                     returnCards.add(cardGrid[2][i]);

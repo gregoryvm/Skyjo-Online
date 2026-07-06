@@ -21,6 +21,13 @@ public class SkyjoCard {
         this.revealed = false;
         this.value = value;
     }
+    
+    public SkyjoCard(SkyjoCard other) {
+        this.revealed = other.revealed;
+        this.value = other.value;
+        this.isCleared = false;
+    }
+    
     public int getValue() {
         return this.value;
     }
