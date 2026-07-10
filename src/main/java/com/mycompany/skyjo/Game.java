@@ -310,5 +310,9 @@ public class Game {
     public int getRoundCount() {
         return this.roundCount;
     }
+    
+    public int getGameScore(int index) {
+        return gameScores[index];
+    }
 }
 
