@@ -24,6 +24,7 @@ public class Game {
     private boolean finalTurn;
     private int turnCount;
     private int roundCount;
+    private int outIndex;
     //private SkyjoCard currCard;
 
     public Game(String[] pids) {
@@ -80,6 +81,7 @@ public class Game {
             for (int i = 0; i < playerIds.length; i++) {
                 SkyjoBoard currBoard = playerBoards.get(i);
                 if(currBoard.isOut() == true) {
+                    outIndex = getCurrentPlayerVal();
                     finalTurn = true;
                     turnsRemaining = playerIds.length - 1;
                     return true;
@@ -170,17 +172,28 @@ public class Game {
             }
         if(turnsRemaining == 0) {      
             // Sum total scores
+            int lowestIndex = 0;
+            int lowestScore = 9999;
             for(int i = 0; i < playerIds.length; i++) {
                 String currPid = playerIds[i];
                 SkyjoBoard currBoard = getPlayerBoard(currPid);
                 gameScores[i] += currBoard.getScore();
-                roundScores[i] = 0; // i dont use this anymore
+                roundScores[i] = currBoard.getScore();
                 System.out.println("Player # " + i + "'s score = " + gameScores[i]);
+                if(roundScores[i] < lowestScore) {
+                    lowestIndex = i;
+                    lowestScore = roundScores[i];
+                }
+            }
+            // If the first player "out" doesn't have the lowest round score, double it.
+            if(lowestIndex != outIndex) {
+                gameScores[outIndex] += roundScores[outIndex];
+                System.out.println("Player # " + outIndex + "'s round score has doubled!");
             }
             if(isGameOver()) {
             // Check who has the lowest score, declare who won.
             int index = 0;
-            int lowestScore = gameScores[0];
+            lowestScore = gameScores[0];
             for(int i = 0; i < playerIds.length; i++) {
                 if(gameScores[i] < lowestScore) {
                     lowestScore = gameScores[i];
@@ -240,7 +253,7 @@ public class Game {
     
     public void startNewRound() {
         int index;
-        System.out.println("Start of round #" + roundCount + "!");
+        System.out.println("Start of round #" + (roundCount-1) + "!");
         System.out.println("getTurnCount() / (currentPlayer + 1) = " + getTurnCount() / (currentPlayer + 1));
         
         if(roundCount > 0 && getTurnCount() == 1) {

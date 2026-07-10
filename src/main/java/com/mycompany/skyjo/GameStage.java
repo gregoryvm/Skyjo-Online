@@ -48,7 +48,7 @@ public class GameStage extends javax.swing.JFrame {
         populateArrayList();
         game.start(game);
         setPidName();
-        drawCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back4.png"))); // may have to remove getclass().getResource(
+        drawCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back.png"))); // may have to remove getclass().getResource(
         ImageIcon icon = (ImageIcon) drawCard.getIcon();
         //currCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Green_3.png"))); // may have to remove getclass().getResource(
         
@@ -217,84 +217,84 @@ public class GameStage extends javax.swing.JFrame {
 
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
 
-        card1.setMaximumSize(new java.awt.Dimension(75, 100));
-        card1.setMinimumSize(new java.awt.Dimension(75, 100));
+        card1.setMaximumSize(new java.awt.Dimension(66, 100));
+        card1.setMinimumSize(new java.awt.Dimension(66, 100));
         card1.setName(""); // NOI18N
-        card1.setPreferredSize(new java.awt.Dimension(75, 100));
+        card1.setPreferredSize(new java.awt.Dimension(66, 100));
         card1.addActionListener(this::card1ActionPerformed);
 
-        card2.setMaximumSize(new java.awt.Dimension(75, 100));
-        card2.setMinimumSize(new java.awt.Dimension(75, 100));
+        card2.setMaximumSize(new java.awt.Dimension(66, 100));
+        card2.setMinimumSize(new java.awt.Dimension(66, 100));
         card2.setName(""); // NOI18N
-        card2.setPreferredSize(new java.awt.Dimension(75, 100));
+        card2.setPreferredSize(new java.awt.Dimension(66, 100));
         card2.addActionListener(this::card2ActionPerformed);
 
-        card3.setMaximumSize(new java.awt.Dimension(75, 100));
-        card3.setMinimumSize(new java.awt.Dimension(75, 100));
+        card3.setMaximumSize(new java.awt.Dimension(66, 100));
+        card3.setMinimumSize(new java.awt.Dimension(66, 100));
         card3.setName(""); // NOI18N
-        card3.setPreferredSize(new java.awt.Dimension(75, 100));
+        card3.setPreferredSize(new java.awt.Dimension(66, 100));
         card3.addActionListener(this::card3ActionPerformed);
 
-        card4.setMaximumSize(new java.awt.Dimension(75, 100));
-        card4.setMinimumSize(new java.awt.Dimension(75, 100));
+        card4.setMaximumSize(new java.awt.Dimension(66, 100));
+        card4.setMinimumSize(new java.awt.Dimension(66, 100));
         card4.setName(""); // NOI18N
-        card4.setPreferredSize(new java.awt.Dimension(75, 100));
+        card4.setPreferredSize(new java.awt.Dimension(66, 100));
         card4.addActionListener(this::card4ActionPerformed);
 
-        card5.setMaximumSize(new java.awt.Dimension(75, 100));
-        card5.setMinimumSize(new java.awt.Dimension(75, 100));
+        card5.setMaximumSize(new java.awt.Dimension(66, 100));
+        card5.setMinimumSize(new java.awt.Dimension(66, 100));
         card5.setName(""); // NOI18N
-        card5.setPreferredSize(new java.awt.Dimension(75, 100));
+        card5.setPreferredSize(new java.awt.Dimension(66, 100));
         card5.addActionListener(this::card5ActionPerformed);
 
-        card6.setMaximumSize(new java.awt.Dimension(75, 100));
-        card6.setMinimumSize(new java.awt.Dimension(75, 100));
+        card6.setMaximumSize(new java.awt.Dimension(66, 100));
+        card6.setMinimumSize(new java.awt.Dimension(66, 100));
         card6.setName(""); // NOI18N
-        card6.setPreferredSize(new java.awt.Dimension(75, 100));
+        card6.setPreferredSize(new java.awt.Dimension(66, 100));
         card6.addActionListener(this::card6ActionPerformed);
 
-        card7.setMaximumSize(new java.awt.Dimension(75, 100));
-        card7.setMinimumSize(new java.awt.Dimension(75, 100));
+        card7.setMaximumSize(new java.awt.Dimension(66, 100));
+        card7.setMinimumSize(new java.awt.Dimension(66, 100));
         card7.setName(""); // NOI18N
-        card7.setPreferredSize(new java.awt.Dimension(75, 100));
+        card7.setPreferredSize(new java.awt.Dimension(66, 100));
         card7.addActionListener(this::card7ActionPerformed);
 
-        card8.setMaximumSize(new java.awt.Dimension(75, 100));
-        card8.setMinimumSize(new java.awt.Dimension(75, 100));
+        card8.setMaximumSize(new java.awt.Dimension(66, 100));
+        card8.setMinimumSize(new java.awt.Dimension(66, 100));
         card8.setName(""); // NOI18N
-        card8.setPreferredSize(new java.awt.Dimension(75, 100));
+        card8.setPreferredSize(new java.awt.Dimension(66, 100));
         card8.addActionListener(this::card8ActionPerformed);
 
-        card9.setMaximumSize(new java.awt.Dimension(75, 100));
-        card9.setMinimumSize(new java.awt.Dimension(75, 100));
+        card9.setMaximumSize(new java.awt.Dimension(66, 100));
+        card9.setMinimumSize(new java.awt.Dimension(66, 100));
         card9.setName(""); // NOI18N
-        card9.setPreferredSize(new java.awt.Dimension(75, 100));
+        card9.setPreferredSize(new java.awt.Dimension(66, 100));
         card9.addActionListener(this::card9ActionPerformed);
 
-        card10.setMaximumSize(new java.awt.Dimension(75, 100));
-        card10.setMinimumSize(new java.awt.Dimension(75, 100));
+        card10.setMaximumSize(new java.awt.Dimension(66, 100));
+        card10.setMinimumSize(new java.awt.Dimension(66, 100));
         card10.setName(""); // NOI18N
-        card10.setPreferredSize(new java.awt.Dimension(75, 100));
+        card10.setPreferredSize(new java.awt.Dimension(66, 100));
         card10.addActionListener(this::card10ActionPerformed);
 
-        card11.setMaximumSize(new java.awt.Dimension(75, 100));
-        card11.setMinimumSize(new java.awt.Dimension(75, 100));
+        card11.setMaximumSize(new java.awt.Dimension(66, 100));
+        card11.setMinimumSize(new java.awt.Dimension(66, 100));
         card11.setName(""); // NOI18N
-        card11.setPreferredSize(new java.awt.Dimension(75, 100));
+        card11.setPreferredSize(new java.awt.Dimension(66, 100));
         card11.addActionListener(this::card11ActionPerformed);
 
-        card12.setMaximumSize(new java.awt.Dimension(75, 100));
-        card12.setMinimumSize(new java.awt.Dimension(75, 100));
+        card12.setMaximumSize(new java.awt.Dimension(66, 100));
+        card12.setMinimumSize(new java.awt.Dimension(66, 100));
         card12.setName(""); // NOI18N
-        card12.setPreferredSize(new java.awt.Dimension(75, 100));
+        card12.setPreferredSize(new java.awt.Dimension(66, 100));
         card12.addActionListener(this::card12ActionPerformed);
 
         playerLabel.setFont(new java.awt.Font("Rockwell", 0, 48)); // NOI18N
         playerLabel.setText("gdfsgfdgdfgss's Cards");
 
-        currCard.setMaximumSize(new java.awt.Dimension(75, 100));
-        currCard.setMinimumSize(new java.awt.Dimension(75, 100));
-        currCard.setPreferredSize(new java.awt.Dimension(75, 100));
+        currCard.setMaximumSize(new java.awt.Dimension(66, 100));
+        currCard.setMinimumSize(new java.awt.Dimension(66, 100));
+        currCard.setPreferredSize(new java.awt.Dimension(66, 100));
 
         swapButton.setText("SWAP");
         swapButton.addActionListener(this::swapButtonActionPerformed);
@@ -305,9 +305,9 @@ public class GameStage extends javax.swing.JFrame {
         drawCard.setAlignmentY(0.0F);
         drawCard.setIconTextGap(0);
         drawCard.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        drawCard.setMaximumSize(new java.awt.Dimension(75, 100));
-        drawCard.setMinimumSize(new java.awt.Dimension(75, 100));
-        drawCard.setPreferredSize(new java.awt.Dimension(75, 100));
+        drawCard.setMaximumSize(new java.awt.Dimension(66, 100));
+        drawCard.setMinimumSize(new java.awt.Dimension(66, 100));
+        drawCard.setPreferredSize(new java.awt.Dimension(66, 100));
         drawCard.addActionListener(this::drawCardActionPerformed);
 
         drawButton.setText("DRAW");
@@ -318,43 +318,43 @@ public class GameStage extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(131, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(drawButton)
-                            .addComponent(drawCard, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(drawCard, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(drawButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(swapButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(flipButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(currCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(79, 79, 79)
+                            .addComponent(currCard, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(swapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(flipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(73, 73, 73)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(card1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                .addComponent(card1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(card3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(card4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(card5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(card5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(card6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card7, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(card7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(card8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(card9, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(card9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card10, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(card10, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(card11, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(card12, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(card12, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(239, 239, 239))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(playerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
