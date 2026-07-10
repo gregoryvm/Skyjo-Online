@@ -314,5 +314,10 @@ public class Game {
     public int getGameScore(int index) {
         return gameScores[index];
     }
+    
+    public int getPlayerIndex(String name) {
+        return Arrays.asList(playerIds).indexOf(name);
+    }
+    
 }
 
