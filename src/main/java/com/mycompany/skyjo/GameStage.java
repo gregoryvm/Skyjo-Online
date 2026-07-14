@@ -149,7 +149,8 @@ public class GameStage extends javax.swing.JFrame {
     
     public void setGameScore(){
         String currentPlayer = game.getCurrentPlayer();
-        gameScoreLabel.setText(currentPlayer + "'s Game Score = " + (game.getPlayerBoard(game.getCurrentPlayer()).getRevealedScore() + game.getGameScore(game.getCurrentPlayerVal())));
+        //gameScoreLabel.setText(currentPlayer + "'s Game Score = " + (game.getPlayerBoard(game.getCurrentPlayer()).getRevealedScore() + game.getGameScore(game.getCurrentPlayerVal())));
+        gameScoreLabel.setText(currentPlayer + "'s Game Score = " + ( game.getGameScore(game.getCurrentPlayerVal())));
     }
     
     public void setviewButtons(){
@@ -221,7 +222,8 @@ public class GameStage extends javax.swing.JFrame {
             System.out.println("turn count = " + game.getTurnCount());
             System.out.println((playerIndex == game.getPlayers().length - 1) + "," + (currBoard.revealedCount() == 2));
             // If the last player has flipped their two cards, start the game according to determined turn order.
-            if((playerIndex == game.getPlayers().length - 1) && (currBoard.revealedCount() == 2)) {
+            //if((playerIndex == game.getPlayers().length - 1) && (currBoard.revealedCount() == 2)) {
+            if(game.getTurnCount() == (game.getPlayers().length + 1)) {
                 game.startNewRound();
             }
             swapFlag = false;

@@ -15,7 +15,7 @@ import java.awt.Font;
 public class Game {
     private int currentPlayer;
     private String[] playerIds;
-    private int[] roundScores;
+    private int[][] roundScores;
     private int[] gameScores;
     private int turnsRemaining;
     private SkyjoDeck deck;
@@ -41,12 +41,12 @@ public class Game {
         finalTurn = false;
         turnsRemaining = 99999; // No countdown on turns remaining until first player is out
         playerBoards = new ArrayList<SkyjoBoard>();
-        roundScores = new int[pids.length];
+        roundScores = new int[pids.length][99];
         gameScores = new int[pids.length];
         for(int i = 0; i < pids.length; i++) {
             SkyjoBoard board = new SkyjoBoard(deck);
             playerBoards.add(board);
-            roundScores[i] = 0;
+            roundScores[i][roundCount] = 0;
             gameScores[i] = 0;
         }
     }
@@ -155,7 +155,6 @@ public class Game {
         } else {
             submitFlip(pid,column,row);
         }
-        // roundScores[getCurrentPlayerVal()] += getPlayerBoard(pid).getScore();
         SkyjoBoard board = getPlayerBoard(pid);
         ArrayList<SkyjoCard> swappedCards = board.columnCleared();
             if(swappedCards.size() == 3) {
@@ -178,16 +177,18 @@ public class Game {
                 String currPid = playerIds[i];
                 SkyjoBoard currBoard = getPlayerBoard(currPid);
                 gameScores[i] += currBoard.getScore();
-                roundScores[i] = currBoard.getScore();
-                System.out.println("Player # " + i + "'s score = " + gameScores[i]);
-                if(roundScores[i] < lowestScore) {
+                roundScores[i][roundCount-1] = currBoard.getScore();
+                System.out.println("Player # " + i + "'s game score = " + gameScores[i]);
+                System.out.println("Player # " + i + "'s round " + roundCount + " score = " + roundScores[i][roundCount-1]);
+                if(roundScores[i][roundCount-1] < lowestScore) {
                     lowestIndex = i;
-                    lowestScore = roundScores[i];
+                    lowestScore = roundScores[i][roundCount-1];
                 }
             }
             // If the first player "out" doesn't have the lowest round score, double it.
             if(lowestIndex != outIndex) {
-                gameScores[outIndex] += roundScores[outIndex];
+                gameScores[outIndex] += roundScores[outIndex][roundCount-1];
+                roundScores[outIndex][roundCount-1] += roundScores[outIndex][roundCount-1];
                 System.out.println("Player # " + outIndex + "'s round score has doubled!");
             }
             if(isGameOver()) {
@@ -201,19 +202,24 @@ public class Game {
                 }     
             }
             
-            JLabel message = new JLabel(playerIds[index] + " has won the game!");
-            message.setFont(new Font("Arial",Font.BOLD,48));
-            JOptionPane.showMessageDialog(null, message);
-            System.exit(0);
+            ArrayList<String> pids = new ArrayList<>();
+            for(int i = 0; i < playerIds.length; i++) {
+                pids.add(playerIds[i]);
+            }
+            new Scoreboard(this,pids).setVisible(true);
+            //JLabel message = new JLabel(playerIds[index] + " has won the game!");
+            //message.setFont(new Font("Arial",Font.BOLD,48));
+            //JOptionPane.showMessageDialog(null, message);
+            //System.exit(0);
             } else {
+                System.out.println("In here?");
                 setTurnCount(1);
                 startNewRound();
             // Increment the round count, reset the boards while retaining overall score and resetting round score?
             // Set the player's turn to the player with the highest score
             }
         } else if(((getTurnCount() / (currentPlayer + 1)) == 1) && board.revealedCount() < 2) {
-            // If it's a player's first turn, let them flip two cards
-            
+            // If it's a player's first turn, let them flip two cards 
         } else {
             currentPlayer = (currentPlayer + 1) % playerIds.length;
             turnsRemaining--;
@@ -253,7 +259,7 @@ public class Game {
     
     public void startNewRound() {
         int index;
-        System.out.println("Start of round #" + (roundCount-1) + "!");
+        System.out.println("Start of round #" + (roundCount) + "!");
         System.out.println("getTurnCount() / (currentPlayer + 1) = " + getTurnCount() / (currentPlayer + 1));
         
         if(roundCount > 0 && getTurnCount() == 1) {
@@ -266,14 +272,14 @@ public class Game {
             discardPile.add(card);
             finalTurn = false;
             turnsRemaining = 99999; // No countdown on turns remaining until first player is out
-            JLabel message = new JLabel("Round # " + (roundCount + 1) + " has begun!");
+            JLabel message = new JLabel("Round # " + (roundCount+1) + " has begun!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
             // Reset the player board for the new round
             for (int i = 0; i < playerIds.length; i++) {
                 SkyjoBoard board = new SkyjoBoard(deck);
                 playerBoards.set(i, board);
-                roundScores[i] = 0;
+                //roundScores[i][roundCount] = 0;
             }
         }
         // If both players flipped 2 cards
@@ -303,9 +309,10 @@ public class Game {
                     }
                 }
                 currentPlayer = index;
-            }        
+            }  
+            roundCount += 1;
         }
-        roundCount += 1;
+        
     }
     public int getRoundCount() {
         return this.roundCount;
@@ -317,6 +324,10 @@ public class Game {
     
     public int getPlayerIndex(String name) {
         return Arrays.asList(playerIds).indexOf(name);
+    }
+    
+    public int getRoundScore(int pid, int round) {
+        return roundScores[pid][round];
     }
     
 }
