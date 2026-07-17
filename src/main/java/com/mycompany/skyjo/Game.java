@@ -162,6 +162,10 @@ public class Game {
                     discardPile.add(new SkyjoCard(swappedCards.get(i)));
                 } 
             }
+    }
+    
+    public void incrememntTurn(String pid) {
+        SkyjoBoard board = getPlayerBoard(pid);
         finalTurn = isRoundEnding();
         System.out.println(getTurnCount() + " = " + (currentPlayer + 1));
         System.out.println("Turns remaining = " + turnsRemaining);

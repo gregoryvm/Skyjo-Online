@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 /**
  *
@@ -190,8 +191,8 @@ public class GameStage extends javax.swing.JFrame {
         SkyjoBoard currBoard = game.getPlayerBoard(game.getCurrentPlayer());
         int rowIndex = (index / 4);
         int colIndex = (index % 4);
-        System.out.println("Clicked row=" + rowIndex + " col=" + colIndex);
         int playerIndex = game.getCurrentPlayerVal();
+        
         if(currGrid[rowIndex][colIndex].getRevealed() && swapFlag == false){
             JLabel message = new JLabel("You cannot flip a revealed card!");
             message.setFont(new Font("Arial",Font.BOLD,48));
@@ -218,24 +219,30 @@ public class GameStage extends javax.swing.JFrame {
             } catch(InvalidPlayerTurnException e) {
                 Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE,null,e);
             }
-            System.out.println("current player index = " + playerIndex);
-            System.out.println("turn count = " + game.getTurnCount());
-            System.out.println((playerIndex == game.getPlayers().length - 1) + "," + (currBoard.revealedCount() == 2));
-            // If the last player has flipped their two cards, start the game according to determined turn order.
-            //if((playerIndex == game.getPlayers().length - 1) && (currBoard.revealedCount() == 2)) {
-            if(game.getTurnCount() == (game.getPlayers().length + 1)) {
-                game.startNewRound();
-            }
-            swapFlag = false;
-            hasDrawn = false;
-            drawButton.setVisible(true);
-            this.setPidName(game.getCurrentPlayer());
             setButtonIcons();
-            String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
+            Timer timer = new Timer(500, e -> {
+                game.incrememntTurn(game.getCurrentPlayer());
+                System.out.println("current player index = " + playerIndex);
+                System.out.println("turn count = " + game.getTurnCount());
+                System.out.println((playerIndex == game.getPlayers().length - 1) + "," + (currBoard.revealedCount() == 2));
+                // If the last player has flipped their two cards, start the game according to determined turn order.
+                //if((playerIndex == game.getPlayers().length - 1) && (currBoard.revealedCount() == 2)) {
+                if(game.getTurnCount() == (game.getPlayers().length + 1)) {
+                    game.startNewRound();
+                }
+                swapFlag = false;
+                hasDrawn = false;
+                drawButton.setVisible(true);
+                this.setPidName(game.getCurrentPlayer());
+                setButtonIcons();
+                String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
 
-            currCard.setIcon(new ImageIcon(
-            getClass().getResource("/images/PNGs/" + file)
-            ));
+                currCard.setIcon(new ImageIcon(
+                getClass().getResource("/images/PNGs/" + file)
+                ));
+            });
+            timer.setRepeats(false);
+            timer.start(); 
         } 
     }
     /**
