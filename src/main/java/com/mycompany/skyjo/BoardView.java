@@ -50,16 +50,13 @@ public class BoardView extends javax.swing.JFrame {
     }
     
     public void setButtonIcons(){
-        //String listString = ""; //is this ever used?
         setRoundScore();
         setGameScore();
         SkyjoCard[][] currGrid = viewGame.getPlayerBoard(pid).getGrid();
-        //String[] cardNames = new String[12];
         int counter = 0;
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 4; j++){
                if(currGrid[i][j].getIsCleared()){
-                   System.out.println("button #" + counter + " set invisible");
                    cardButtons.get(counter).setVisible(false);
                } else {
                 cardButtons.get(counter).setVisible(true);
@@ -72,15 +69,9 @@ public class BoardView extends javax.swing.JFrame {
                     cardButtons.get(counter).setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back.png"))); 
                 }
                }
-               //cardNames[i + j] = currGrid[i][j].toString();
-               //listString += currGrid[i][j].toString();
-               //listString += ",";
                counter = counter + 1;
             }
-        }
-        
-        //cardIds = new ArrayList<>(Arrays.asList(cardNames));
-        
+        }    
     }
     public void populateArrayList(){
         cardButtons.add(card1);

@@ -28,15 +28,12 @@ import javax.swing.Timer;
 public class GameStage extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GameStage.class.getName());
-        private AddPlayerNames addPlayers = new AddPlayerNames();
         ArrayList<String> temp = new ArrayList<>();
         String[] pids;
         Game game;
         ArrayList<JButton> cardButtons = new ArrayList<JButton>();
         ArrayList<JButton> viewButtons = new ArrayList<JButton>();
         String[] viewButtonPids = new String[3];
-        ArrayList<String> cardIds;
-        PopUp window;
         boolean swapFlag;
         boolean hasDrawn;
     
@@ -54,66 +51,45 @@ public class GameStage extends javax.swing.JFrame {
         setRoundScore();
         setGameScore();
         setviewButtons();
-        drawCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back.png"))); // may have to remove getclass().getResource(
-        ImageIcon icon = (ImageIcon) drawCard.getIcon();
-        //currCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Green_3.png"))); // may have to remove getclass().getResource(
         
+        drawCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back.png"))); 
+        ImageIcon icon = (ImageIcon) drawCard.getIcon();
+ 
         String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
-
         currCard.setIcon(new ImageIcon(
         getClass().getResource("/images/PNGs/" + file)
         ));
         
-        
         setButtonIcons();
         swapFlag = false;
-        hasDrawn = false;    // make sure player draws a card before flipping
+        hasDrawn = false;    
     }
     
     public void setButtonIcons(){
-        //String listString = ""; //is this ever used?
         setRoundScore();
         setGameScore();
         setviewButtons();
         SkyjoCard[][] currGrid = game.getPlayerBoard(game.getCurrentPlayer()).getGrid();
-        System.out.println(game.getCurrentPlayer());
-        //String[] cardNames = new String[12];
+        
         int counter = 0;
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 4; j++){
-                System.out.printf(
-                "%s [%d,%d] value=%d revealed=%b cleared=%b id=%d%n",
-                game.getCurrentPlayer(),
-                i,
-                j,
-                currGrid[i][j].getValue(),
-                currGrid[i][j].getRevealed(),
-                currGrid[i][j].getIsCleared(),
-                System.identityHashCode(currGrid[i][j])
-); 
-               if(currGrid[i][j].getIsCleared()){
-                   System.out.println("button #" + counter + " set invisible");
-                   cardButtons.get(counter).setVisible(false);
-               } else {
-                cardButtons.get(counter).setVisible(true);
-                if(currGrid[i][j].getRevealed()){
-                    String file = currGrid[i][j].toString() + ".png";
-                     cardButtons.get(counter).setIcon(new ImageIcon(
-                     getClass().getResource("/images/PNGs/" + file)
-                     ));
+                if(currGrid[i][j].getIsCleared()){
+                    cardButtons.get(counter).setVisible(false);
                 } else {
-                    cardButtons.get(counter).setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back.png"))); 
-                }
+                    cardButtons.get(counter).setVisible(true);
+                    if(currGrid[i][j].getRevealed()){
+                        String file = currGrid[i][j].toString() + ".png";
+                        cardButtons.get(counter).setIcon(new ImageIcon(
+                        getClass().getResource("/images/PNGs/" + file)
+                        ));
+                    } else {
+                        cardButtons.get(counter).setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PNGs/Card_Back.png"))); 
+                    }
                }
-               //cardNames[i + j] = currGrid[i][j].toString();
-               //listString += currGrid[i][j].toString();
-               //listString += ",";
                counter = counter + 1;
             }
         }
-        
-        //cardIds = new ArrayList<>(Arrays.asList(cardNames));
-        
     }
     
     public void populateArrayList(){
@@ -150,7 +126,6 @@ public class GameStage extends javax.swing.JFrame {
     
     public void setGameScore(){
         String currentPlayer = game.getCurrentPlayer();
-        //gameScoreLabel.setText(currentPlayer + "'s Game Score = " + (game.getPlayerBoard(game.getCurrentPlayer()).getRevealedScore() + game.getGameScore(game.getCurrentPlayerVal())));
         gameScoreLabel.setText(currentPlayer + "'s Game Score = " + ( game.getGameScore(game.getCurrentPlayerVal())));
     }
     
@@ -207,11 +182,8 @@ public class GameStage extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, message);
         } else {
             try {
-                if((game.getTurnCount() / (game.getCurrentPlayerVal() + 1)) == 1) {
-                    game.submitAction(game.getCurrentPlayer(), colIndex, rowIndex, false);  
-                } else {
-                    game.submitAction(game.getCurrentPlayer(), colIndex, rowIndex, swapFlag);            
-                }
+                game.submitAction(game.getCurrentPlayer(), colIndex, rowIndex, swapFlag);            
+
                 String file = currGrid[rowIndex][colIndex] + ".png";
                 cardButtons.get(index).setIcon(new ImageIcon(
                 getClass().getResource("/images/PNGs/" + file)
@@ -222,21 +194,18 @@ public class GameStage extends javax.swing.JFrame {
             setButtonIcons();
             Timer timer = new Timer(500, e -> {
                 game.incrememntTurn(game.getCurrentPlayer());
-                System.out.println("current player index = " + playerIndex);
-                System.out.println("turn count = " + game.getTurnCount());
-                System.out.println((playerIndex == game.getPlayers().length - 1) + "," + (currBoard.revealedCount() == 2));
-                // If the last player has flipped their two cards, start the game according to determined turn order.
-                //if((playerIndex == game.getPlayers().length - 1) && (currBoard.revealedCount() == 2)) {
+                
                 if(game.getTurnCount() == (game.getPlayers().length + 1)) {
                     game.startNewRound();
                 }
+                
                 swapFlag = false;
                 hasDrawn = false;
                 drawButton.setVisible(true);
                 this.setPidName(game.getCurrentPlayer());
                 setButtonIcons();
+                
                 String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
-
                 currCard.setIcon(new ImageIcon(
                 getClass().getResource("/images/PNGs/" + file)
                 ));

@@ -15,10 +15,8 @@ package com.mycompany.skyjo;
 10 9s 10s 11s 12s
 -----------------
 150 cards total
-
-** Need to add logic for drawing the last discarded card to your board instead of from the deck **
-** Need to add logic for placing a completed column + old card to the discard pile **
 */
+
 import java.util.ArrayList;
 import java.util.Random;
 

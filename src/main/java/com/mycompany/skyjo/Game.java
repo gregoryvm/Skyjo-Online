@@ -25,13 +25,11 @@ public class Game {
     private int turnCount;
     private int roundCount;
     private int outIndex;
-    //private SkyjoCard currCard;
 
     public Game(String[] pids) {
         deck = new SkyjoDeck();
-        deck.reset(); // potential fix?   
+        deck.reset();
         deck.shuffle();
-        //System.out.println(deck.drawCard());
         discardPile = new ArrayList<SkyjoCard>();
 
         playerIds = pids;
@@ -53,10 +51,7 @@ public class Game {
 
     public void start(Game game) {
         SkyjoCard card = deck.drawCard();
-
         discardPile.add(card);
-        // currentPlayer = (currentPlayer + 1) % playerIds.length;
-
     }
 
     public SkyjoCard getTopCard(int value) {
@@ -120,7 +115,6 @@ public class Game {
         }
     }
 
-    // Call this after a player's turn ends by flipping or swapping
     public void submitDraw(String pid) throws InvalidPlayerTurnException {
         checkPlayerTurn(pid);
         if(deck.isEmpty()) {
@@ -130,7 +124,6 @@ public class Game {
 
         // Draw a card and place on discard pile, current player chooses what to do with this card (swap or flip)
         SkyjoCard card = deck.drawCard();
-        System.out.println(card);
         card.revealCard();
         discardPile.add(card);
     }
@@ -167,12 +160,7 @@ public class Game {
     public void incrememntTurn(String pid) {
         SkyjoBoard board = getPlayerBoard(pid);
         finalTurn = isRoundEnding();
-        System.out.println(getTurnCount() + " = " + (currentPlayer + 1));
-        System.out.println("Turns remaining = " + turnsRemaining);
-        System.out.println("Game scores = ");
-        for (int i = 0; i < playerIds.length; i++) {
-                System.out.println(gameScores[i]);
-            }
+        
         if(turnsRemaining == 0) {      
             // Sum total scores
             int lowestIndex = 0;
@@ -182,8 +170,6 @@ public class Game {
                 SkyjoBoard currBoard = getPlayerBoard(currPid);
                 gameScores[i] += currBoard.getScore();
                 roundScores[i][roundCount-1] = currBoard.getScore();
-                System.out.println("Player # " + i + "'s game score = " + gameScores[i]);
-                System.out.println("Player # " + i + "'s round " + roundCount + " score = " + roundScores[i][roundCount-1]);
                 if(roundScores[i][roundCount-1] < lowestScore) {
                     lowestIndex = i;
                     lowestScore = roundScores[i][roundCount-1];
@@ -193,34 +179,21 @@ public class Game {
             if(lowestIndex != outIndex) {
                 gameScores[outIndex] += roundScores[outIndex][roundCount-1];
                 roundScores[outIndex][roundCount-1] += roundScores[outIndex][roundCount-1];
-                System.out.println("Player # " + outIndex + "'s round score has doubled!");
+                JLabel message = new JLabel(playerIds[outIndex] + "'s round score got doubled!");
+                message.setFont(new Font("Arial",Font.BOLD,48));
+                JOptionPane.showMessageDialog(null, message);
             }
             if(isGameOver()) {
-            // Check who has the lowest score, declare who won.
-            int index = 0;
-            lowestScore = gameScores[0];
-            for(int i = 0; i < playerIds.length; i++) {
-                if(gameScores[i] < lowestScore) {
-                    lowestScore = gameScores[i];
-                    index = i;
-                }     
-            }
-            
+            // If the game is over, display the scoreboard.
             ArrayList<String> pids = new ArrayList<>();
             for(int i = 0; i < playerIds.length; i++) {
                 pids.add(playerIds[i]);
             }
             new Scoreboard(this,pids).setVisible(true);
-            //JLabel message = new JLabel(playerIds[index] + " has won the game!");
-            //message.setFont(new Font("Arial",Font.BOLD,48));
-            //JOptionPane.showMessageDialog(null, message);
-            //System.exit(0);
             } else {
-                System.out.println("In here?");
+                // Increment the round count, reset the boards while retaining overall score and resetting round score
                 setTurnCount(1);
                 startNewRound();
-            // Increment the round count, reset the boards while retaining overall score and resetting round score?
-            // Set the player's turn to the player with the highest score
             }
         } else if(((getTurnCount() / (currentPlayer + 1)) == 1) && board.revealedCount() < 2) {
             // If it's a player's first turn, let them flip two cards 
@@ -263,12 +236,9 @@ public class Game {
     
     public void startNewRound() {
         int index;
-        System.out.println("Start of round #" + (roundCount) + "!");
-        System.out.println("getTurnCount() / (currentPlayer + 1) = " + getTurnCount() / (currentPlayer + 1));
         
         if(roundCount > 0 && getTurnCount() == 1) {
-            System.out.println("In round 2 reset");
-            deck.reset(); // potential fix?   
+            deck.reset(); 
             deck.shuffle();
             discardPile = new ArrayList<SkyjoCard>();
             currentPlayer = 0;
@@ -276,9 +246,11 @@ public class Game {
             discardPile.add(card);
             finalTurn = false;
             turnsRemaining = 99999; // No countdown on turns remaining until first player is out
+            
             JLabel message = new JLabel("Round # " + (roundCount+1) + " has begun!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
+            
             // Reset the player board for the new round
             for (int i = 0; i < playerIds.length; i++) {
                 SkyjoBoard board = new SkyjoBoard(deck);
@@ -286,6 +258,7 @@ public class Game {
                 //roundScores[i][roundCount] = 0;
             }
         }
+        
         // If both players flipped 2 cards
         if((getTurnCount() / (currentPlayer + 1)) > 1) {
             // If it's the first round, turn order determined by sum of 2 revealed cards
@@ -302,8 +275,7 @@ public class Game {
                 }
                 currentPlayer = index;
             // Otherwise, the player with the highest overall score starts
-            } else {
-                System.out.println("In round 2 post 2 flip");            
+            } else {        
                 int highestScore = gameScores[0];
                 index = 0;
                 for (int i = 0; i < playerIds.length; i++) {

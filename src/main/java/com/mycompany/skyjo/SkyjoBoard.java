@@ -59,15 +59,7 @@ public class SkyjoBoard {
     // the player board, then returns the card previously in that position. 
     public SkyjoCard swapCard(SkyjoCard card, int col, int row) {
     SkyjoCard toDiscard = cardGrid[row][col];
-
-    System.out.println(
-        "Replacing [" + row + "," + col + "] " +
-        "old value=" + toDiscard.getValue() +
-        " old id=" + System.identityHashCode(toDiscard) +
-        " new value=" + card.getValue() +
-        " new id=" + System.identityHashCode(card)
-    );
-
+    
     toDiscard.revealCard();
     card.revealCard();
     cardGrid[row][col] = card;
@@ -83,9 +75,9 @@ public class SkyjoBoard {
     // if they do all match those cards are cleared from their board and one of the
     // matching cards is returned. 
     public ArrayList<SkyjoCard> columnCleared() {
-        System.out.println(getScore());
         ArrayList<SkyjoCard> returnCards = new ArrayList<SkyjoCard>();
         boolean matching;
+        
         for(int i = 0; i < 4; i++) {
             matching = true;
             int currValue = cardGrid[0][i].getValue();
@@ -93,8 +85,8 @@ public class SkyjoBoard {
                 if(cardGrid[j][i].getValue() != currValue || !cardGrid[j][i].getRevealed() || cardGrid[j][i].getIsCleared()) {
                     matching = false;
                 } 
+                
                 if(matching && j == 2) {
-                    System.out.print("ROW #" + i + " GOT CLEARED!");
                     returnCards.add(cardGrid[0][i]);
                     returnCards.add(cardGrid[1][i]);
                     returnCards.add(cardGrid[2][i]);

@@ -126,6 +126,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
+        // Ensure a game only starts with 2 or more players
         if(playerIds.size() <= 1) {
             JLabel message = new JLabel("There must be atleast 2 players!");
             message.setFont(new Font("Arial",Font.BOLD,48));
