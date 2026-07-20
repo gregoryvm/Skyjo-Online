@@ -157,6 +157,7 @@ public class InstructionPage extends javax.swing.JFrame {
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         new Menu().setVisible(true);
+        this.setResizable(false);
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
