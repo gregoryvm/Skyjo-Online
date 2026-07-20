@@ -194,6 +194,10 @@ public class AddPlayerNames extends javax.swing.JFrame {
             JLabel message = new JLabel("Please keep names to under 15 characters!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
+        } else if(playerIds.contains(pidTextBox.getText())){
+            JLabel message = new JLabel("Please ensure player names are unique!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
         } else {
             String name = pidTextBox.getText().trim();
             playerIds.add(name);
