@@ -7,6 +7,7 @@ package com.mycompany.skyjo;
 import java.awt.Font;
 import java.awt.Point;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -26,6 +27,23 @@ public class AddPlayerNames extends javax.swing.JFrame {
         initComponents();
         playerIds = new ArrayList<>();
         this.setResizable(false);
+        
+        jLabel1.setIcon(new ImageIcon(
+        getClass().getResource("/images/PNGs/add_players.png")
+        ));
+        
+        jLabel2.setIcon(new ImageIcon(
+        getClass().getResource("/images/PNGs/player_name.png")
+        ));
+        
+        saveButton.setIcon(new ImageIcon(
+        getClass().getResource("/images/PNGs/save_button.png")
+        ));
+        
+        doneButton.setIcon(new ImageIcon(
+        getClass().getResource("/images/PNGs/done_button.png")
+        ));
+        
     }
     
     public String[] getPids(){
@@ -42,7 +60,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new com.mycompany.skyjo.BackgroundPanel();
         saveButton = new javax.swing.JButton();
         doneButton = new javax.swing.JButton();
         pidTextBox = new javax.swing.JTextField();
@@ -55,32 +73,54 @@ public class AddPlayerNames extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(750, 500));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
-        saveButton.setText("SAVE");
         saveButton.addActionListener(this::saveButtonActionPerformed);
 
-        doneButton.setText("DONE");
         doneButton.addActionListener(this::doneButtonActionPerformed);
 
-        jLabel1.setFont(new java.awt.Font("Rockwell", 0, 36)); // NOI18N
-        jLabel1.setText("Add the names of the players");
+        pidTextBox.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        pidTextBox.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel2.setFont(new java.awt.Font("Rockwell", 0, 18)); // NOI18N
-        jLabel2.setText("Name of the player:");
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+
+        pid1Label.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        pid1Label.setForeground(new java.awt.Color(0, 0, 0));
+        pid1Label.setText("Player 1: ");
+        pid1Label.setOpaque(true);
+
+        pid2Label.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        pid2Label.setForeground(new java.awt.Color(0, 0, 0));
+        pid2Label.setText("Player 2: ");
+        pid2Label.setOpaque(true);
+
+        pid3Label.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        pid3Label.setForeground(new java.awt.Color(0, 0, 0));
+        pid3Label.setText("Player 3: ");
+        pid3Label.setOpaque(true);
+
+        pid4Label.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        pid4Label.setForeground(new java.awt.Color(0, 0, 0));
+        pid4Label.setText("Player 4: ");
+        pid4Label.setOpaque(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(118, Short.MAX_VALUE)
+                .addContainerGap(114, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
+                        .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -95,11 +135,11 @@ public class AddPlayerNames extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addComponent(jLabel1)
-                .addGap(81, 81, 81)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pidTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pidTextBox)
+                    .addComponent(jLabel2))
                 .addGap(45, 45, 45)
                 .addComponent(pid1Label, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -110,9 +150,9 @@ public class AddPlayerNames extends javax.swing.JFrame {
                 .addComponent(pid4Label, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+                    .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -150,29 +190,28 @@ public class AddPlayerNames extends javax.swing.JFrame {
             JLabel message = new JLabel("Please enter in a name!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
+        } else if(pidTextBox.getText().length() >= 15){
+            JLabel message = new JLabel("Please keep names to under 15 characters!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
         } else {
             String name = pidTextBox.getText().trim();
             playerIds.add(name);
             switch(playerIds.size()) {
-                case 1: pid1Label.setText(playerIds.get(playerIds.size()-1));
+                case 1: pid1Label.setText("Player 1: " + playerIds.get(playerIds.size()-1));
                 error = false;
                 break;
-                case 2: pid2Label.setText(playerIds.get(playerIds.size()-1));
+                case 2: pid2Label.setText("Player 2: " + playerIds.get(playerIds.size()-1));
                 error = false;
                 break;
-                case 3: pid3Label.setText(playerIds.get(playerIds.size()-1));
+                case 3: pid3Label.setText("Player 3: " + playerIds.get(playerIds.size()-1));
                 error = false;
                 break;
-                case 4: pid4Label.setText(playerIds.get(playerIds.size()-1));
+                case 4: pid4Label.setText("Player 4: " + playerIds.get(playerIds.size()-1));
                 error = false;
                 break;
             }
-            if(error == false) {
-                JLabel message = new JLabel("Successful Save!");
-                message.setFont(new Font("Arial",Font.BOLD,48));
-                JOptionPane.showMessageDialog(null, message);
-                pidTextBox.setText("");
-            } else if(playerIds.size() == 5) {
+            if(playerIds.size() == 5) {
                 playerIds.remove(name);
                 JLabel message = new JLabel("There can only be between 2-4 players!");
                 message.setFont(new Font("Arial",Font.BOLD,48));
@@ -210,7 +249,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
     private javax.swing.JButton doneButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private com.mycompany.skyjo.BackgroundPanel jPanel1;
     private javax.swing.JLabel pid1Label;
     private javax.swing.JLabel pid2Label;
     private javax.swing.JLabel pid3Label;
