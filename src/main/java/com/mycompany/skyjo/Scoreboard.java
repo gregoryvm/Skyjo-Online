@@ -4,8 +4,15 @@
  */
 package com.mycompany.skyjo;
 
+import java.awt.Font;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,11 +30,31 @@ public class Scoreboard extends javax.swing.JFrame {
      */
     public Scoreboard(Game game, ArrayList<String> playerIds) {
         initComponents();
+        
+        getContentPane().removeAll();
+        getContentPane().setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        pack();
+
+        this.setResizable(false);
         this.game = game;
         temp = playerIds;
         pids = temp.toArray(new String[temp.size()]);
+        
+        jButton1.setIcon(new ImageIcon(
+        getClass().getResource("/images/PNGs/menu_button.png")
+        ));
+
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        int data[][] = new int[pids.length][game.getRoundCount()+1];
+        jTable2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        
+        DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+        leftRenderer.setHorizontalAlignment(JLabel.LEFT);
+        
+        int data[][] = new int[pids.length][game.getRoundCount()+1];  
         model.addColumn("Players");
         for(int k = 0; k < game.getRoundCount(); k++) {
             model.addColumn("Round " + (k+1));
@@ -41,13 +68,42 @@ public class Scoreboard extends javax.swing.JFrame {
                    row.add(pids[i]); 
                 } else if(j <= game.getRoundCount()) {
                     data[i][j] = game.getRoundScore(i,j-1);
-                    row.add(String.valueOf(data[i][j]));  
+                    row.add(String.valueOf(data[i][j]));
                } else {
                    row.add(String.valueOf(game.getGameScore(i)));
                }
             }
             model.addRow(row);
         }
+        
+        for(int i = 1; i <= game.getRoundCount(); i++) {
+            jTable2.getColumnModel()
+                .getColumn(i)
+                .setCellRenderer(centerRenderer);
+            jTable2.getColumnModel()
+                .getColumn(i)
+                .setPreferredWidth(60);
+        }
+        
+        jTable2.setModel(model);
+      
+        jTable2.getColumnModel()
+            .getColumn(0)
+            .setCellRenderer(leftRenderer);
+
+        jTable2.getColumnModel()
+                  .getColumn(game.getRoundCount()+1)
+                  .setCellRenderer(centerRenderer);
+        
+        jTable2.setRowHeight(35);
+        
+        jTable2.getColumnModel()
+            .getColumn(0)
+            .setPreferredWidth(85);
+        
+        jTable2.getColumnModel()
+            .getColumn(jTable2.getColumnCount() - 1)
+            .setPreferredWidth(70);
     }
     
      public Scoreboard() {
@@ -63,13 +119,20 @@ public class Scoreboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new com.mycompany.skyjo.BackgroundPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(750, 500));
+        setMinimumSize(new java.awt.Dimension(750, 500));
+        setResizable(false);
 
+        jPanel1.setMaximumSize(new java.awt.Dimension(750, 500));
+        jPanel1.setMinimumSize(new java.awt.Dimension(750, 500));
+
+        jTable2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -80,44 +143,54 @@ public class Scoreboard extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        jButton1.setText("MAIN MENU");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(363, 363, 363)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(410, Short.MAX_VALUE))
+                .addGap(306, 306, 306))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 9, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 33, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new Menu().setVisible(true);
+        Point location = this.getLocation();
+        Menu menu = new Menu();
+        menu.setLocation(location);
+        menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -148,7 +221,7 @@ public class Scoreboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel1;
+    private com.mycompany.skyjo.BackgroundPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables

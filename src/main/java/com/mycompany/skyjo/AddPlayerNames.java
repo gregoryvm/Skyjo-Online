@@ -190,8 +190,8 @@ public class AddPlayerNames extends javax.swing.JFrame {
             JLabel message = new JLabel("Please enter in a name!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
-        } else if(pidTextBox.getText().length() >= 15){
-            JLabel message = new JLabel("Please keep names to under 15 characters!");
+        } else if(pidTextBox.getText().length() > 10){
+            JLabel message = new JLabel("Please keep names to 10 characters max!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
         } else if(playerIds.contains(pidTextBox.getText())){

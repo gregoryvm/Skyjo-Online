@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Point;
 
 public class Game {
     private int currentPlayer;
@@ -25,8 +26,10 @@ public class Game {
     private int turnCount;
     private int roundCount;
     private int outIndex;
-
-    public Game(String[] pids) {
+    private GameStage stage;
+    
+    public Game(String[] pids, GameStage gameStage) {
+        stage = gameStage;
         deck = new SkyjoDeck();
         deck.reset();
         deck.shuffle();
@@ -184,12 +187,16 @@ public class Game {
                 JOptionPane.showMessageDialog(null, message);
             }
             if(isGameOver()) {
-            // If the game is over, display the scoreboard.
-            ArrayList<String> pids = new ArrayList<>();
-            for(int i = 0; i < playerIds.length; i++) {
-                pids.add(playerIds[i]);
-            }
-            new Scoreboard(this,pids).setVisible(true);
+                // If the game is over, display the scoreboard.
+                ArrayList<String> pids = new ArrayList<>();
+                for(int i = 0; i < playerIds.length; i++) {
+                    pids.add(playerIds[i]);
+                }
+                Point location = stage.getLocation();
+                Scoreboard scoreBoard = new Scoreboard(this, pids);
+                scoreBoard.setLocation(location);
+                scoreBoard.setVisible(true);
+                stage.dispose();
             } else {
                 // Increment the round count, reset the boards while retaining overall score and resetting round score
                 setTurnCount(1);
