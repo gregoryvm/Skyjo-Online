@@ -61,11 +61,22 @@ public class Scoreboard extends javax.swing.JFrame {
         }
         model.addColumn("Total");
         
+        int winningIndex = 0;
+        for(int i = 0; i < pids.length; i++) {
+            if(game.getGameScore(i) < game.getGameScore(winningIndex)) {
+                winningIndex = i;
+            }
+        }
+        
         for(int i = 0; i < pids.length; i++) {
             Vector<Object> row = new Vector<>();
             for(int j = 0; j <= game.getRoundCount()+1; j++) {
                 if(j == 0) {
-                   row.add(pids[i]); 
+                    if (i == winningIndex) {
+                        row.add("<html><font color='#DAA520'>★</font> " + pids[i] + "</html>");
+                    } else {
+                        row.add(pids[i]); 
+                    }
                 } else if(j <= game.getRoundCount()) {
                     data[i][j] = game.getRoundScore(i,j-1);
                     row.add(String.valueOf(data[i][j]));
@@ -99,7 +110,7 @@ public class Scoreboard extends javax.swing.JFrame {
         
         jTable2.getColumnModel()
             .getColumn(0)
-            .setPreferredWidth(85);
+            .setPreferredWidth(95);
         
         jTable2.getColumnModel()
             .getColumn(jTable2.getColumnCount() - 1)
@@ -132,7 +143,6 @@ public class Scoreboard extends javax.swing.JFrame {
         jPanel1.setMaximumSize(new java.awt.Dimension(750, 500));
         jPanel1.setMinimumSize(new java.awt.Dimension(750, 500));
 
-        jTable2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -173,13 +183,13 @@ public class Scoreboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 33, Short.MAX_VALUE))
         );
 
