@@ -4,14 +4,16 @@
  */
 package com.mycompany.skyjo;
 
+import java.awt.Font;
+
 /**
  *
  * @author Admin
  */
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Menu menu = new Menu();
-        menu.setLocationRelativeTo(null);
-        menu.setVisible(true);
+class textPane {
+
+    static void setFont(Font customFont) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
 }

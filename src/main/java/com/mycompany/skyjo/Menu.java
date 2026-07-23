@@ -138,7 +138,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void rulesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rulesButtonActionPerformed
-        new InstructionPage().setVisible(true);
+        Point location = this.getLocation();
+        InstructionPage instructionPage = new InstructionPage();
+        instructionPage.setLocation(location);
+        instructionPage.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_rulesButtonActionPerformed
 
