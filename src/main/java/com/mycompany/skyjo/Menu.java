@@ -21,6 +21,11 @@ public class Menu extends javax.swing.JFrame {
     public Menu() {
         initComponents();
         
+        setTitle("Skyjo Online");
+        setIconImage(new ImageIcon(
+        getClass().getResource("/images/PNGs/icon.png")
+        ).getImage());
+        
         logoLabel.setIcon(new ImageIcon(
         getClass().getResource("/images/PNGs/logo2.png")
         ));

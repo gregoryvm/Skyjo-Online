@@ -25,6 +25,12 @@ public class AddPlayerNames extends javax.swing.JFrame {
      */
     public AddPlayerNames() {
         initComponents();
+        
+        setTitle("Skyjo Online");
+        setIconImage(new ImageIcon(
+        getClass().getResource("/images/PNGs/icon.png")
+        ).getImage());
+        
         playerIds = new ArrayList<>();
         this.setResizable(false);
         

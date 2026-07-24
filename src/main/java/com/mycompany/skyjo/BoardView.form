@@ -76,9 +76,9 @@
                               </Group>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="roundScoreLabel" min="-2" pref="215" max="-2" attributes="0"/>
-                              <Component id="gameScoreLabel" min="-2" pref="215" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="gameScoreLabel" pref="215" max="32767" attributes="0"/>
+                              <Component id="roundScoreLabel" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">

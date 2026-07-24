@@ -31,6 +31,11 @@ public class Scoreboard extends javax.swing.JFrame {
     public Scoreboard(Game game, ArrayList<String> playerIds) {
         initComponents();
         
+        setTitle("Skyjo Online");
+        setIconImage(new ImageIcon(
+        getClass().getResource("/images/PNGs/icon.png")
+        ).getImage());
+        
         getContentPane().removeAll();
         getContentPane().setLayout(new java.awt.BorderLayout());
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);

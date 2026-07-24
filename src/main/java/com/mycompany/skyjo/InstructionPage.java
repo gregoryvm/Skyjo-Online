@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Point;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -22,6 +23,12 @@ public class InstructionPage extends javax.swing.JFrame {
      */
     public InstructionPage() {
         initComponents();
+        
+        setTitle("Skyjo Online");
+        setIconImage(new ImageIcon(
+        getClass().getResource("/images/PNGs/icon.png")
+        ).getImage());
+        
         jTextPane1.setContentType("text/html");
         jTextPane1.putClientProperty(
             javax.swing.JEditorPane.HONOR_DISPLAY_PROPERTIES,
