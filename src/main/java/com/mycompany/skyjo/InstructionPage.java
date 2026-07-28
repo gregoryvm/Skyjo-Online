@@ -79,7 +79,6 @@ public class InstructionPage extends javax.swing.JFrame {
         closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(750, 500));
         setResizable(false);
 
         jScrollPane2.setOpaque(false);

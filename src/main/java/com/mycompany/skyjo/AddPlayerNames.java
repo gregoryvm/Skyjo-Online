@@ -19,12 +19,14 @@ public class AddPlayerNames extends javax.swing.JFrame {
     public ArrayList<String> playerIds;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddPlayerNames.class.getName());
-
+    private boolean playerAdded;
     /**
      * Creates new form AddPlayerNames
      */
     public AddPlayerNames() {
         initComponents();
+        
+        playerAdded = false;
         
         setTitle("Skyjo Online");
         setIconImage(new ImageIcon(
@@ -76,6 +78,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
         pid2Label = new javax.swing.JLabel();
         pid3Label = new javax.swing.JLabel();
         pid4Label = new javax.swing.JLabel();
+        CPUButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +118,10 @@ public class AddPlayerNames extends javax.swing.JFrame {
         pid4Label.setText("Player 4: ");
         pid4Label.setOpaque(true);
 
+        CPUButton1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        CPUButton1.setText("Add CPU");
+        CPUButton1.addActionListener(this::CPUButton1ActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,7 +142,9 @@ public class AddPlayerNames extends javax.swing.JFrame {
                     .addComponent(pid2Label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pid3Label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pid4Label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(130, 130, 130))
+                .addGap(18, 18, 18)
+                .addComponent(CPUButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,9 +164,11 @@ public class AddPlayerNames extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pid4Label, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CPUButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
 
@@ -179,6 +190,10 @@ public class AddPlayerNames extends javax.swing.JFrame {
         // Ensure a game only starts with 2 or more players
         if(playerIds.size() <= 1) {
             JLabel message = new JLabel("There must be atleast 2 players!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
+        } else if(!playerAdded) {
+            JLabel message = new JLabel("There must be atleast 1 non-CPU player!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
         } else {
@@ -221,14 +236,43 @@ public class AddPlayerNames extends javax.swing.JFrame {
                 error = false;
                 break;
             }
+            playerAdded = true;
             if(playerIds.size() == 5) {
                 playerIds.remove(name);
                 JLabel message = new JLabel("There can only be between 2-4 players!");
                 message.setFont(new Font("Arial",Font.BOLD,48));
                 JOptionPane.showMessageDialog(null, message);
+                playerAdded = false;
             }
         }
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void CPUButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CPUButton1ActionPerformed
+        String name = "CPU " + playerIds.size();
+        playerIds.add(name);
+        if(!playerAdded & playerIds.size() == 4) {
+            playerIds.remove(name);
+            JLabel message = new JLabel("You cannot only have CPU players!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
+        } else if(playerIds.size() > 4) {
+            playerIds.remove(name);
+            JLabel message = new JLabel("There can only be between 2-4 players!");
+            message.setFont(new Font("Arial",Font.BOLD,48));
+            JOptionPane.showMessageDialog(null, message);
+        } else {    
+            switch(playerIds.size()) {
+                case 1: pid1Label.setText("Player 1: " + playerIds.get(playerIds.size()-1));
+                break;
+                case 2: pid2Label.setText("Player 2: " + playerIds.get(playerIds.size()-1));
+                break;
+                case 3: pid3Label.setText("Player 3: " + playerIds.get(playerIds.size()-1));
+                break;
+                case 4: pid4Label.setText("Player 4: " + playerIds.get(playerIds.size()-1));
+                break;
+            }
+        }
+    }//GEN-LAST:event_CPUButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,6 +300,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CPUButton1;
     private javax.swing.JButton doneButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
