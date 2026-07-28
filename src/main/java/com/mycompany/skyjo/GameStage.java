@@ -32,6 +32,7 @@ public class GameStage extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GameStage.class.getName());
         ArrayList<String> temp = new ArrayList<>();
         String[] pids;
+        ArrayList<Boolean> bots;
         Game game;
         ArrayList<JButton> cardButtons = new ArrayList<JButton>();
         ArrayList<JButton> viewButtons = new ArrayList<JButton>();
@@ -42,7 +43,7 @@ public class GameStage extends javax.swing.JFrame {
     public GameStage() {
     }
         
-    public GameStage(ArrayList<String> playerIds) {
+    public GameStage(ArrayList<String> playerIds, ArrayList<Boolean> realPlayers) {
         initComponents();
         
         setTitle("Skyjo Online");
@@ -53,9 +54,12 @@ public class GameStage extends javax.swing.JFrame {
         this.setResizable(false);
         temp = playerIds;
         pids = temp.toArray(new String[temp.size()]);
+        bots = realPlayers;
+        
         game = new Game(pids, this);
-        populateArrayList();
         game.start(game);
+        
+        populateArrayList();
         setPidName();
         setRoundScore();
         setGameScore();
@@ -83,7 +87,9 @@ public class GameStage extends javax.swing.JFrame {
         
         setButtonIcons();
         swapFlag = false;
-        hasDrawn = false;    
+        hasDrawn = false;
+        
+        game.beginTurn();
     }
     
     public void setButtonIcons(){
@@ -186,7 +192,7 @@ public class GameStage extends javax.swing.JFrame {
         }
     }
     
-    private void cardAction(int index){
+    public void cardAction(int index){
         SkyjoCard[][] currGrid = game.getPlayerBoard(game.getCurrentPlayer()).getGrid();
         SkyjoBoard currBoard = game.getPlayerBoard(game.getCurrentPlayer());
         int rowIndex = (index / 4);
@@ -218,7 +224,7 @@ public class GameStage extends javax.swing.JFrame {
             }
             setButtonIcons();
             Timer timer = new Timer(500, e -> {
-                game.incrememntTurn(game.getCurrentPlayer());
+                game.incrementTurn(game.getCurrentPlayer());
                 
                 if(game.getTurnCount() == (game.getPlayers().length + 1)) {
                     game.startNewRound();
@@ -239,6 +245,11 @@ public class GameStage extends javax.swing.JFrame {
             timer.start(); 
         } 
     }
+    
+    public void setSwapFlag(boolean val) {
+        swapFlag = val;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

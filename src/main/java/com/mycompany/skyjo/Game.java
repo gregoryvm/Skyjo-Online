@@ -12,6 +12,9 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Point;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Timer;
 
 public class Game {
     private int currentPlayer;
@@ -160,7 +163,7 @@ public class Game {
             }
     }
     
-    public void incrememntTurn(String pid) {
+    public void incrementTurn(String pid) {
         SkyjoBoard board = getPlayerBoard(pid);
         finalTurn = isRoundEnding();
         
@@ -208,6 +211,11 @@ public class Game {
             currentPlayer = (currentPlayer + 1) % playerIds.length;
             turnsRemaining--;
             setTurnCount(getTurnCount() + 1);
+            
+            // Check if it's a CPU turn and play their action
+            if(!stage.bots.get(getCurrentPlayerVal())){
+                cpuTurn();
+            }
         }
     }
 
@@ -313,5 +321,95 @@ public class Game {
         return roundScores[pid][round];
     }
     
+    public void cpuTurn() {   
+        System.out.println("In CPU Turn");
+        System.out.println("turnCount = " + turnCount);
+        System.out.println("getCurrentPlayerVal() + 1 = " + getCurrentPlayerVal());
+        SkyjoBoard board = playerBoards.get(getCurrentPlayerVal());
+        int drawVal = getDiscardTop().getValue();
+        Timer timer = new Timer(500, e -> {
+        boolean action = false;
+        // On first turn of round flip two random cards
+        if(turnCount == getCurrentPlayerVal() + 1) {
+            int card = (int)(1 + Math.random() * 11);
+            int rowIndex = (card / 4);
+            int colIndex = (card % 4);
+            //int col = (int)(Math.random() * 3);
+            //int row = (int)(Math.random() * 4);
+            
+            System.out.println("col = " + colIndex + ", row =" + rowIndex);
+            while(board.revealedCount() < 2) {
+                while(board.getGrid()[rowIndex][colIndex].getRevealed() == true) {
+                    card = (int)(1 + Math.random() * 12);
+                    rowIndex = (card / 4);
+                    colIndex = (card % 4);
+                }
+                stage.setSwapFlag(false);
+                stage.cardAction(card);
+            }
+        } else {
+            /* 1: Check if you can clear a column, and clear it
+                - If you'd go out and... 
+                    - it would make you double: dont clear and continue down hierarchy
+                    - it wont make you double or your score would be sub 10: clear and go out
+                    - If its -2, -1, 0 dont clear it and continue down hierarchy
+            */
+            int i = 0;
+            while(i < 4 && !action) {
+                System.out.println("i = " + i);
+                int currVal = board.getGrid()[0][i].getValue();
+                if(drawVal == currVal) {
+                    if(board.getGrid()[1][i].getValue() == currVal && board.getGrid()[1][i].getRevealed() && !board.getGrid()[1][i].getIsCleared()) {
+                        System.out.println("[0][i] = " + board.getGrid()[0][i].getValue());
+                        System.out.println("[1][i] = " + board.getGrid()[1][i].getValue());
+                        System.out.println("drawVal = " + drawVal);
+                        
+                        stage.setSwapFlag(true);
+                        stage.cardAction(i + 8);
+                        action = true;
+                    } else if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared()) {
+                        System.out.println("[0][i] = " + board.getGrid()[0][i].getValue());
+                        System.out.println("[2][i] = " + board.getGrid()[2][i].getValue());
+                        System.out.println("drawVal = " + drawVal);
+                        
+                        stage.setSwapFlag(true);
+                        stage.cardAction(i + 4);
+                        action = true;
+                    }
+                } else {
+                    currVal = board.getGrid()[1][i].getValue();
+                    if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared() && drawVal == currVal) {
+                        System.out.println("[1][i] = " + board.getGrid()[1][i].getValue());
+                        System.out.println("[2][i] = " + board.getGrid()[2][i].getValue());
+                        System.out.println("drawVal = " + drawVal);
+                        
+                        stage.setSwapFlag(true);
+                        stage.cardAction(i);
+                        action = true;
+                    }    
+                }
+                i++;
+            }
+            /* 2: Set up matching columns 
+                - If its early in the round, match columns of any number
+                - If its mid/late round and the number is high, continue down hierarchy
+            */
+            if(!action) {
+                
+            }
+        }
+        });
+            timer.setRepeats(false);
+            timer.start(); 
+    }
+    
+    public void beginTurn() {
+        // Check if it's a CPU turn and play their action
+        if(!stage.bots.get(getCurrentPlayerVal())){
+            cpuTurn();
+        }
+    }     
 }
+
+
 

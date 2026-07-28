@@ -7,6 +7,7 @@ package com.mycompany.skyjo;
 import java.awt.Font;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,9 +18,10 @@ import javax.swing.JOptionPane;
  */
 public class AddPlayerNames extends javax.swing.JFrame {
     public ArrayList<String> playerIds;
-    
+    public ArrayList<Boolean> realPlayers;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddPlayerNames.class.getName());
     private boolean playerAdded;
+    
     /**
      * Creates new form AddPlayerNames
      */
@@ -27,7 +29,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
         initComponents();
         
         playerAdded = false;
-        
+        realPlayers  = new ArrayList<>();
         setTitle("Skyjo Online");
         setIconImage(new ImageIcon(
         getClass().getResource("/images/PNGs/icon.png")
@@ -198,7 +200,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, message);
         } else {
             Point location = this.getLocation();
-            GameStage gameStage = new GameStage(playerIds);
+            GameStage gameStage = new GameStage(playerIds, realPlayers);
             gameStage.setLocation(location);
             gameStage.setVisible(true);
             this.dispose();
@@ -219,9 +221,15 @@ public class AddPlayerNames extends javax.swing.JFrame {
             JLabel message = new JLabel("Please ensure player names are unique!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
+        } else if(playerIds.size() == 4) {
+                JLabel message = new JLabel("There can only be between 2-4 players!");
+                message.setFont(new Font("Arial",Font.BOLD,48));
+                JOptionPane.showMessageDialog(null, message);
+                playerAdded = false;
         } else {
             String name = pidTextBox.getText().trim();
             playerIds.add(name);
+            realPlayers.add(true);
             switch(playerIds.size()) {
                 case 1: pid1Label.setText("Player 1: " + playerIds.get(playerIds.size()-1));
                 error = false;
@@ -237,30 +245,22 @@ public class AddPlayerNames extends javax.swing.JFrame {
                 break;
             }
             playerAdded = true;
-            if(playerIds.size() == 5) {
-                playerIds.remove(name);
-                JLabel message = new JLabel("There can only be between 2-4 players!");
-                message.setFont(new Font("Arial",Font.BOLD,48));
-                JOptionPane.showMessageDialog(null, message);
-                playerAdded = false;
-            }
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void CPUButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CPUButton1ActionPerformed
-        String name = "CPU " + playerIds.size();
-        playerIds.add(name);
-        if(!playerAdded & playerIds.size() == 4) {
-            playerIds.remove(name);
+        if(!playerAdded & playerIds.size() == 3) {
             JLabel message = new JLabel("You cannot only have CPU players!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
-        } else if(playerIds.size() > 4) {
-            playerIds.remove(name);
+        } else if(playerIds.size() > 3) {
             JLabel message = new JLabel("There can only be between 2-4 players!");
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
-        } else {    
+        } else {  
+            String name = "CPU " + (Collections.frequency(realPlayers, false) + 1);
+            playerIds.add(name);
+            realPlayers.add(false);
             switch(playerIds.size()) {
                 case 1: pid1Label.setText("Player 1: " + playerIds.get(playerIds.size()-1));
                 break;
