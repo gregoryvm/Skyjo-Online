@@ -324,10 +324,11 @@ public class Game {
     public void cpuTurn() {   
         System.out.println("In CPU Turn");
         System.out.println("turnCount = " + turnCount);
+        System.out.println("CPU Turn #" + turnCount / playerIds.length);
         System.out.println("getCurrentPlayerVal() + 1 = " + getCurrentPlayerVal());
         SkyjoBoard board = playerBoards.get(getCurrentPlayerVal());
-        int drawVal = getDiscardTop().getValue();
         Timer timer = new Timer(500, e -> {
+        int drawVal = getDiscardTop().getValue();
         boolean action = false;
         // On first turn of round flip two random cards
         if(turnCount == getCurrentPlayerVal() + 1) {
@@ -337,17 +338,19 @@ public class Game {
             //int col = (int)(Math.random() * 3);
             //int row = (int)(Math.random() * 4);
             
-            System.out.println("col = " + colIndex + ", row =" + rowIndex);
             while(board.revealedCount() < 2) {
                 while(board.getGrid()[rowIndex][colIndex].getRevealed() == true) {
+                    System.out.println("col = " + colIndex + ", row =" + rowIndex);
                     card = (int)(1 + Math.random() * 12);
                     rowIndex = (card / 4);
                     colIndex = (card % 4);
                 }
                 stage.setSwapFlag(false);
                 stage.cardAction(card);
+                action = true;
             }
         } else {
+            System.out.println("IN CPU COLUMN CLEAR");
             /* 1: Check if you can clear a column, and clear it
                 - If you'd go out and... 
                     - it would make you double: dont clear and continue down hierarchy
@@ -357,9 +360,13 @@ public class Game {
             int i = 0;
             while(i < 4 && !action) {
                 System.out.println("i = " + i);
+                System.out.println("drawVal = " + drawVal);
+                System.out.println("[0][i]  = " + board.getGrid()[0][i].getValue());
+                System.out.println("[0][1]  = " + board.getGrid()[1][i].getValue());
+                System.out.println("[0][2]  = " + board.getGrid()[2][i].getValue());
                 int currVal = board.getGrid()[0][i].getValue();
                 if(drawVal == currVal) {
-                    if(board.getGrid()[1][i].getValue() == currVal && board.getGrid()[1][i].getRevealed() && !board.getGrid()[1][i].getIsCleared()) {
+                    if(board.getGrid()[1][i].getValue() == currVal && board.getGrid()[1][i].getRevealed() && !board.getGrid()[1][i].getIsCleared() && currVal > 0) {
                         System.out.println("[0][i] = " + board.getGrid()[0][i].getValue());
                         System.out.println("[1][i] = " + board.getGrid()[1][i].getValue());
                         System.out.println("drawVal = " + drawVal);
@@ -367,7 +374,7 @@ public class Game {
                         stage.setSwapFlag(true);
                         stage.cardAction(i + 8);
                         action = true;
-                    } else if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared()) {
+                    } else if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared() && currVal > 0) {
                         System.out.println("[0][i] = " + board.getGrid()[0][i].getValue());
                         System.out.println("[2][i] = " + board.getGrid()[2][i].getValue());
                         System.out.println("drawVal = " + drawVal);
@@ -378,7 +385,7 @@ public class Game {
                     }
                 } else {
                     currVal = board.getGrid()[1][i].getValue();
-                    if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared() && drawVal == currVal) {
+                    if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared() && drawVal == currVal && currVal > 0) {
                         System.out.println("[1][i] = " + board.getGrid()[1][i].getValue());
                         System.out.println("[2][i] = " + board.getGrid()[2][i].getValue());
                         System.out.println("drawVal = " + drawVal);
@@ -395,7 +402,132 @@ public class Game {
                 - If its mid/late round and the number is high, continue down hierarchy
             */
             if(!action) {
-                
+                System.out.println("IN CPU COLUMN MATCH");
+                int val1;
+                int val2;
+                i = 0;
+                while(i < 4 && !action) {
+                    System.out.println("i = " + i);
+                    int currVal = board.getGrid()[0][i].getValue();
+                    int currVal2 = board.getGrid()[1][i].getValue();
+                    int currVal3 = board.getGrid()[2][i].getValue();
+                    System.out.println("drawVal = " + drawVal);
+                    System.out.println("currVal = " + currVal);
+                    System.out.println("currVal2 = " + currVal2);
+                    System.out.println("currVal3 = " + currVal3);
+                    
+                    if(drawVal == currVal && !board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed()) {
+                        
+                        // If the drawn card matches the first in a column, swap it with the highest value card in that column
+                        // * Non-revealed cards are assumed to be value 6
+                        if(board.getGrid()[1][i].getRevealed()){
+                            val1 = board.getGrid()[1][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[2][i].getRevealed()){
+                            val2 = board.getGrid()[2][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        System.out.println("val1 = " + val1);
+                        System.out.println("val2 = " + val2);
+                        
+                        // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
+                        // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
+                        if(val1 > val2) {
+                          if(val1 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) { // the 3rd Or does not fix the problem 
+                            System.out.println("swap row 2");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 4);
+                            action = true;  
+                          }  
+                        } else {
+                            if(val2 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                                System.out.println("swap row 3");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i + 8);
+                                action = true;  
+                            }
+                        }                      
+                        
+                    } else if(drawVal == currVal2 && !board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed()) {
+                        // If the drawn card matches the second in a column, swap it with the highest value card in that column
+                        // * Non-revealed cards are assumed to be value 6
+                        if(board.getGrid()[0][i].getRevealed()){
+                            val1 = board.getGrid()[0][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[2][i].getRevealed()){
+                            val2 = board.getGrid()[2][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        
+                        System.out.println("val1 = " + val1);
+                        System.out.println("val2 = " + val2);
+                        
+                        // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
+                        // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
+                        if(val1 > val2) {
+                          if(val1 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                            System.out.println("swap row 1");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i);  
+                            action = true;  
+                          }
+                        } else {
+                            if(val2 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                                System.out.println("swap row 3");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i + 8);
+                                action = true;  
+                            }
+                        }                      
+                    } else if(drawVal == currVal3 && !board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed()) {
+                        // If the drawn card matches the third in a column, swap it with the highest value card in that column
+                        // * Non-revealed cards are assumed to be value 6
+
+                        if(board.getGrid()[0][i].getRevealed()){
+                            val1 = board.getGrid()[0][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[1][i].getRevealed()){
+                            val2 = board.getGrid()[1][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        
+                        System.out.println("val1 = " + val1);
+                        System.out.println("val2 = " + val2);
+                        
+                        
+                        // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
+                        // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
+                        if(val1 > val2) {
+                            if(val1 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                                System.out.println("swap row 1");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i);  
+                                action = true;  
+                            }
+                        } else {
+                          if(val2 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                                System.out.println("swap row 1");
+                                System.out.println("swap row 2");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i + 4);
+                                action = true;  
+                          }
+                        }     
+                    }
+                    i++;
+                }    
             }
         }
         });

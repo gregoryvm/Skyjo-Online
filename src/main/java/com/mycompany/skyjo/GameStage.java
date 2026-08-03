@@ -567,6 +567,10 @@ public class GameStage extends javax.swing.JFrame {
 
     private void drawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawButtonActionPerformed
         SkyjoBoard currBoard = game.getPlayerBoard(game.getCurrentPlayer());
+        
+        // If it's a CPU's turn, run through the choices hierarchy again
+        game.beginTurn();
+        
         if(currBoard.revealedCount() < 2){
             JLabel message = new JLabel("You must flip until you have 2 cards revealed!");
             message.setFont(new Font("Arial",Font.BOLD,48));
