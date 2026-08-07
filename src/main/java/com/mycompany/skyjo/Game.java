@@ -741,6 +741,24 @@ public class Game {
                 i++;
                 }
             }
+            
+            /*4: Start fresh columns
+                - If a column isnt started and theres no match, start a new column with values 4 or lower
+            */
+            if(!action && drawVal < 5) {
+                System.out.println("IN CPU COLUMN STARTING");
+                i = 0;
+                while(i < 4 & !action) {
+                    // If the whole column isn't revealed, swap with drawVal 4 or lower
+                    if(!board.getGrid()[0][i].getRevealed() && !board.getGrid()[1][i].getRevealed()&& !board.getGrid()[2][i].getRevealed()) {
+                        System.out.println("swap row 1");
+                        stage.setSwapFlag(true);
+                        stage.cardAction(i);  
+                        action = true;
+                    }
+                i++;
+                }
+            }
         }
         });
             timer.setRepeats(false);
