@@ -212,10 +212,17 @@ public class Game {
             turnsRemaining--;
             setTurnCount(getTurnCount() + 1);
             
-            // Check if it's a CPU turn and play their action
-            if(!stage.bots.get(getCurrentPlayerVal())){
-                cpuTurn();
+            if(getTurnCount() == playerIds.length + 1) {
+                startNewRound();
+                beginTurn();
+                return;
             }
+            
+            beginTurn();
+            // Check if it's a CPU turn and play their action
+            //if(!stage.bots.get(getCurrentPlayerVal())){
+                //cpuTurn();
+            //}
         }
     }
 
@@ -276,6 +283,7 @@ public class Game {
         
         // If both players flipped 2 cards
         if((getTurnCount() / (currentPlayer + 1)) > 1) {
+            System.out.println("EVERY PLAYER HAS PLAYED FIRST TURN, DETERMINE STARTING PLAYER");
             // If it's the first round, turn order determined by sum of 2 revealed cards
             // (the player with the highest sum starts)
             SkyjoBoard highestBoard = playerBoards.get(0);
@@ -299,8 +307,9 @@ public class Game {
                         index = i;
                     }
                 }
-                currentPlayer = index;
-            }  
+                currentPlayer = index;   
+            } 
+            System.out.println("starting player = " + playerIds[currentPlayer]);
             roundCount += 1;
         }
         
@@ -341,7 +350,7 @@ public class Game {
             while(board.revealedCount() < 2) {
                 while(board.getGrid()[rowIndex][colIndex].getRevealed() == true) {
                     System.out.println("col = " + colIndex + ", row =" + rowIndex);
-                    card = (int)(1 + Math.random() * 12);
+                    card = (int)(1 + Math.random() * 11);
                     rowIndex = (card / 4);
                     colIndex = (card % 4);
                 }
@@ -436,20 +445,26 @@ public class Game {
                         
                         // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
                         // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
-                        if(val1 > val2) {
-                          if(val1 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) { // the 3rd Or does not fix the problem 
+                        if(val1 > val2 && val1 > 0) {
+                          if(val1 != drawVal && drawVal > 0 && !(val1 == val2 && val1 != 13 && val1 < drawVal)) { // the 3rd Or does not fix the problem 
                             System.out.println("swap row 2");
                             stage.setSwapFlag(true);
                             stage.cardAction(i + 4);
                             action = true;  
                           }  
-                        } else {
-                            if(val2 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                        } else if(val2 > val1 && val2 > 0) {
+                            if(val2 != drawVal && drawVal > 0 && !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
                                 System.out.println("swap row 3");
                                 stage.setSwapFlag(true);
                                 stage.cardAction(i + 8);
                                 action = true;  
                             }
+                        // If the values are the same, greater than 0 but still less than the draw card match with the draw card    
+                        } else if((val1 == val2 && val1 > 0 && drawVal < val1) && !(val1 < 1 || val2 < 1)) {
+                            System.out.println("swap row 2");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i + 4);
+                                action = true;  
                         }                      
                         
                     } else if(drawVal == currVal2 && !board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed()) {
@@ -472,21 +487,27 @@ public class Game {
                         
                         // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
                         // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
-                        if(val1 > val2) {
-                          if(val1 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                        if(val1 > val2 && val1 > 0) {
+                          if(val1 != drawVal && drawVal > 0 && !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
                             System.out.println("swap row 1");
                             stage.setSwapFlag(true);
                             stage.cardAction(i);  
                             action = true;  
                           }
-                        } else {
-                            if(val2 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                        } else if(val2 > val1 && val2 > 0) {
+                            if(val2 != drawVal && drawVal > 0 && !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
                                 System.out.println("swap row 3");
                                 stage.setSwapFlag(true);
                                 stage.cardAction(i + 8);
                                 action = true;  
                             }
-                        }                      
+                        // If the values are the same, greater than 0 but still less than the draw card match with the draw card    
+                        } else if((val1 == val2 && val1 > 0 && drawVal < val1) && !(val1 < 1 || val2 < 1)) {
+                            System.out.println("swap row 1");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i);
+                                action = true;  
+                        }                        
                     } else if(drawVal == currVal3 && !board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed()) {
                         // If the drawn card matches the third in a column, swap it with the highest value card in that column
                         // * Non-revealed cards are assumed to be value 6
@@ -509,25 +530,216 @@ public class Game {
                         
                         // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
                         // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
-                        if(val1 > val2) {
-                            if(val1 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
+                        if(val1 > val2 && val1 > 0) {
+                            if(val1 != drawVal && drawVal > 0 && !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
                                 System.out.println("swap row 1");
                                 stage.setSwapFlag(true);
                                 stage.cardAction(i);  
                                 action = true;  
                             }
-                        } else {
-                          if(val2 != drawVal || drawVal > 0 || !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
-                                System.out.println("swap row 1");
+                        } else if(val2 > val1 && val2 > 0) {
+                          if(val2 != drawVal && drawVal > 0 && !(val1 == val2 && val1 != 13 && val1 < drawVal)) {
                                 System.out.println("swap row 2");
                                 stage.setSwapFlag(true);
                                 stage.cardAction(i + 4);
                                 action = true;  
                           }
-                        }     
+                        // If the values are the same, greater than 0 but still less than the draw card match with the draw card
+                        } else if((val1 == val2 && val1 > 0 && drawVal < val1) && !(val1 < 1 || val2 < 1)) {
+                            System.out.println("swap row 1");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i);
+                                action = true;  
+                        }        
                     }
                     i++;
                 }    
+            }
+            /* 3: Score reducing 
+                - -2,-1 and 0 get put into the same column
+                    - if theres one spot in these add non-clearing -2, -1, 0, 1, 2, 3
+            */
+            if(!action && drawVal < 4) {
+                System.out.println("IN CPU SCORE REDUCING");
+                int val1;
+                int val2;
+                i = 0;
+                while(i < 4 & !action) {
+                    // Check if the first card in a column is revealed, not cleared, and either -2, -1 or 0
+                    if((!board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed()) && (board.getGrid()[0][i].getValue() == -2 || board.getGrid()[0][i].getValue() == -1 ||board.getGrid()[0][i].getValue() == -0)) {
+                        
+                        // Check the values of the other two cards in the column
+                        if(board.getGrid()[1][i].getRevealed()){
+                            val1 = board.getGrid()[1][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[2][i].getRevealed()){
+                            val2 = board.getGrid()[2][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        
+                        // Swap the score minimizing card with the lowest value
+                        //  - If that lowest value is 0 or negative, move to next column
+                        //  - Ensure that columns aren't cleared from this action
+                        if(val1 > val2 && val1 > 0) {
+                            System.out.println("swap row 2");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 4);  
+                            action = true;     
+                        } else if(val1 < val2 && val2 > 0){
+                            System.out.println("swap row 3");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 8);
+                            action = true;  
+                        // Same value for both cards, or drawn card is greater than 0
+                        } else {
+                            // If both cards are not revealed, swap the with the second card
+                            if(val1 == 13 && val2 == 13) {
+                                System.out.println("swap row 2");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i + 4);  
+                                action = true;
+                            // Check if the second card is 0, -1 or -2, if so swap the third card with the drawn 1, 2 or 3    
+                            } else if((!board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed()) && (board.getGrid()[1][i].getValue() == -2 || board.getGrid()[1][i].getValue() == -1 ||board.getGrid()[1][i].getValue() == -0)) {
+                                // If the remaining row isn't 0, -1 or -2, swap it
+                                if((!board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed()) && !(board.getGrid()[2][i].getValue() == -2 || board.getGrid()[2][i].getValue() == -1 ||board.getGrid()[2][i].getValue() == -0)  && drawVal < board.getGrid()[2][i].getValue()) {
+                                    System.out.println("swap row 3");
+                                    stage.setSwapFlag(true);
+                                    stage.cardAction(i + 8);  
+                                    action = true;
+                                }
+                            // Check if the third card is 0, -1 or -2, if so swap the second card with the drawn 1, 2 or 3 
+                            } else if((!board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed()) && (board.getGrid()[2][i].getValue() == -2 || board.getGrid()[2][i].getValue() == -1 ||board.getGrid()[2][i].getValue() == -0)) {
+                                // If the remaining row isn't 0, -1 or -2, swap it
+                                if((!board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed()) && !(board.getGrid()[1][i].getValue() == -2 || board.getGrid()[1][i].getValue() == -1 ||board.getGrid()[1][i].getValue() == -0)  && drawVal < board.getGrid()[1][i].getValue()) {
+                                    System.out.println("swap row 2");
+                                    stage.setSwapFlag(true);
+                                    stage.cardAction(i + 4);  
+                                    action = true;
+                                }
+                            }
+                        } 
+                        
+                    // Check if the second card in a column is revealed, not cleared, and either -2, -1 or 0    
+                    } else if((!board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed()) && (board.getGrid()[1][i].getValue() == -2 || board.getGrid()[1][i].getValue() == -1 ||board.getGrid()[1][i].getValue() == -0)) {
+                        
+                        // Check the values of the other two cards in the column
+                        if(board.getGrid()[0][i].getRevealed()){
+                            val1 = board.getGrid()[0][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[2][i].getRevealed()){
+                            val2 = board.getGrid()[2][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        
+                        // Swap the score minimizing card with the lowest value
+                        //  - If that lowest value is 0 or negative, move to next column
+                        //  - Ensure that columns aren't cleared from this action
+                        if(val1 > val2 && val1 > 0) {
+                            System.out.println("swap row 1");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i);  
+                            action = true;     
+                        } else if(val1 < val2 && val2 > 0){
+                            System.out.println("swap row 3");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 8);
+                            action = true;  
+                        // Same value for both cards, or drawn card is greater than 0
+                        } else {
+                            // If both cards are not revealed, swap the with the first card
+                            if(val1 == 13 && val2 == 13) {
+                                System.out.println("swap row 1");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i);  
+                                action = true;
+                            // Check if the second card is 0, -1 or -2, if so swap the third card with the drawn 1, 2 or 3    
+                            } else if((!board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed()) && (board.getGrid()[0][i].getValue() == -2 || board.getGrid()[0][i].getValue() == -1 ||board.getGrid()[0][i].getValue() == -0)) {
+                                // If the remaining row isn't 0, -1 or -2, swap it
+                                if((!board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed()) && !(board.getGrid()[2][i].getValue() == -2 || board.getGrid()[2][i].getValue() == -1 ||board.getGrid()[2][i].getValue() == -0)  && drawVal < board.getGrid()[2][i].getValue()) {
+                                    System.out.println("swap row 3");
+                                    stage.setSwapFlag(true);
+                                    stage.cardAction(i + 8);  
+                                    action = true;
+                                }
+                            // Check if the third card is 0, -1 or -2, if so swap the second card with the drawn 1, 2 or 3 
+                            } else if((!board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed()) && (board.getGrid()[2][i].getValue() == -2 || board.getGrid()[2][i].getValue() == -1 ||board.getGrid()[2][i].getValue() == -0)) {
+                                // If the remaining row isn't 0, -1 or -2, swap it
+                                if((!board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed()) && !(board.getGrid()[0][i].getValue() == -2 || board.getGrid()[0][i].getValue() == -1 ||board.getGrid()[0][i].getValue() == -0)  && drawVal < board.getGrid()[0][i].getValue()) {
+                                    System.out.println("swap row 1");
+                                    stage.setSwapFlag(true);
+                                    stage.cardAction(i);  
+                                    action = true;
+                                }
+                            }
+                        }    
+                    // Check if the third card in a column is revealed, not cleared, and either -2, -1 or 0        
+                    } else if((!board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed()) && (board.getGrid()[2][i].getValue() == -2 || board.getGrid()[2][i].getValue() == -1 ||board.getGrid()[2][i].getValue() == -0)) {
+                    
+                        // Check the values of the other two cards in the column
+                        if(board.getGrid()[0][i].getRevealed()){
+                            val1 = board.getGrid()[0][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[1][i].getRevealed()){
+                            val2 = board.getGrid()[1][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        
+                        // Swap the score minimizing card with the lowest value
+                        //  - If that lowest value is 0 or negative, move to next column
+                        //  - Ensure that columns aren't cleared from this action
+                        if(val1 > val2 && val1 > 0) {
+                            System.out.println("swap row 1");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i);  
+                            action = true;     
+                        } else if(val1 < val2 && val2 > 0){
+                            System.out.println("swap row 2");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 4);
+                            action = true;  
+                        // Same value for both cards, or drawn card is greater than 0
+                        } else {
+                            // If both cards are not revealed, swap the with the first card
+                            if(val1 == 13 && val2 == 13) {
+                                System.out.println("swap row 1");
+                                stage.setSwapFlag(true);
+                                stage.cardAction(i);  
+                                action = true;
+                            // Check if the second card is 0, -1 or -2, if so swap the third card with the drawn 1, 2 or 3    
+                            } else if((!board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed()) && (board.getGrid()[0][i].getValue() == -2 || board.getGrid()[0][i].getValue() == -1 ||board.getGrid()[0][i].getValue() == -0)) {
+                                // If the remaining row isn't 0, -1 or -2, swap it
+                                if((!board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed()) && !(board.getGrid()[1][i].getValue() == -2 || board.getGrid()[1][i].getValue() == -1 ||board.getGrid()[1][i].getValue() == -0)  && drawVal < board.getGrid()[1][i].getValue()) {
+                                    System.out.println("swap row 2");
+                                    stage.setSwapFlag(true);
+                                    stage.cardAction(i + 8);  
+                                    action = true;
+                                }
+                            // Check if the third card is 0, -1 or -2, if so swap the second card with the drawn 1, 2 or 3 
+                            } else if((!board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed()) && (board.getGrid()[1][i].getValue() == -2 || board.getGrid()[1][i].getValue() == -1 ||board.getGrid()[1][i].getValue() == -0)) {
+                                // If the remaining row isn't 0, -1 or -2, swap it
+                                if((!board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed()) && !(board.getGrid()[0][i].getValue() == -2 || board.getGrid()[0][i].getValue() == -1 ||board.getGrid()[0][i].getValue() == -0) && drawVal < board.getGrid()[0][i].getValue()) {
+                                        System.out.println("swap row 1");
+                                        stage.setSwapFlag(true);
+                                        stage.cardAction(i);  
+                                        action = true;
+                                }
+                            }
+                        }    
+                    }
+                i++;
+                }
             }
         }
         });

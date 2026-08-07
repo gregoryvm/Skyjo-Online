@@ -227,6 +227,7 @@ public class GameStage extends javax.swing.JFrame {
                 game.incrementTurn(game.getCurrentPlayer());
                 
                 if(game.getTurnCount() == (game.getPlayers().length + 1)) {
+                    System.out.println("START NEW ROUND FROM GAMESTAGE");
                     game.startNewRound();
                 }
                 
