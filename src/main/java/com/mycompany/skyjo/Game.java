@@ -759,6 +759,150 @@ public class Game {
                 i++;
                 }
             }
+            
+            /* 5: Score reducing 2	
+                - a) If its middle of the round and the column is of a high number, add sub 4 to it
+                - b) if it's late round start replacing high numbers with numbers sub 4
+            */
+            // a) If its middle of the round and the column is of a high number, add sub 4 to it
+            if(!action && drawVal < 4 && (getTurnCount()/playerIds.length) > 5 && (getTurnCount()/playerIds.length) < 11) {
+                System.out.println("IN CPU SCORE REDUCING 2 MID ROUND");
+                int val1;
+                int val2;
+                int currVal;
+                i = 0;
+                while(i < 4 & !action) {
+                    
+                    // Check if row 1 value is not cleared, not revealed and a high value
+                    if(!board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed() && board.getGrid()[0][i].getValue() > 6) {
+                        
+                        currVal = board.getGrid()[0][i].getValue();
+                        
+                        // Check the values of the other two cards in the column
+                        if(board.getGrid()[1][i].getRevealed()) {
+                            val1 = board.getGrid()[1][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[2][i].getRevealed()) {
+                            val2 = board.getGrid()[2][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        
+                        // If the row 2 value doesn't match row 1 or row 3, or is unrevealed, or isn't lower than drawVal, then replace it
+                        if(((val1 != val2 && val1 != currVal) || val1 == 13) && drawVal < val1) {
+                            System.out.println("swap row 2");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 4);  
+                            action = true;
+                        // If the row 3 value doesn't match row 1 or row 3, or is unrevealed, or isn't lower than drawVal, then replace it
+                        } else if(((val1 != val2 && val2 != currVal) || val2 == 13) && drawVal < val2) {
+                            System.out.println("swap row 3");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 8);  
+                            action = true;
+                        }
+                        
+                    // Check if row 2 value is not cleared, not revealed and a high value    
+                    } else if(!board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed() && board.getGrid()[1][i].getValue() > 6) {
+                        
+                        currVal = board.getGrid()[1][i].getValue();
+                        
+                        // Check the values of the other two cards in the column
+                        if(board.getGrid()[0][i].getRevealed()) {
+                            val1 = board.getGrid()[0][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[2][i].getRevealed()) {
+                            val2 = board.getGrid()[2][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        
+                        // If the row 1 value doesn't match row 2 or row 3, or is unrevealed, or isn't lower than drawVal, then replace it
+                        if(((val1 != val2 && val1 != currVal) || val1 == 13) && drawVal < val1) {
+                            System.out.println("swap row 1");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i);  
+                            action = true;
+                        // If the row 3 value doesn't match row 1 or row 3, or is unrevealed, or isn't lower than drawVal, then replace it
+                        } else if(((val1 != val2 && val2 != currVal) || val2 == 13) && drawVal < val2) {
+                            System.out.println("swap row 3");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 8);  
+                            action = true;
+                        }
+                         
+                    // Check if row 3 value is not cleared, not revealed and a high value    
+                    } else if(!board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed() && board.getGrid()[2][i].getValue() > 6) {
+                        
+                        currVal = board.getGrid()[2][i].getValue();
+                        
+                        // Check the values of the other two cards in the column
+                        if(board.getGrid()[0][i].getRevealed()) {
+                            val1 = board.getGrid()[0][i].getValue();
+                        } else {
+                            val1 = 13;
+                        }
+                            
+                        if(board.getGrid()[1][i].getRevealed()) {
+                            val2 = board.getGrid()[1][i].getValue();
+                        } else {
+                            val2 = 13;
+                        }
+                        
+                        // If the row 1 value doesn't match row 2 or row 3, or is unrevealed, or isn't lower than drawVal, then replace it
+                        if(((val1 != val2 && val1 != currVal) || val1 == 13) && drawVal < val1) {
+                            System.out.println("swap row 1");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i);  
+                            action = true;
+                        // If the row 2 value doesn't match row 1 or row 3, or is unrevealed, and isn't lower than drawVal, then replace it
+                        } else if(((val1 != val2 && val2 != currVal) || val2 == 13) && drawVal < val2) {
+                            System.out.println("swap row 3");
+                            stage.setSwapFlag(true);
+                            stage.cardAction(i + 4); 
+                            action = true;
+                        }
+                
+                    }
+                    
+                i++;
+                }
+            }
+            
+            // b) if it's late round start replacing high numbers with numbers sub 4
+            if(!action && drawVal < 4 && (getTurnCount()/playerIds.length) > 11){
+                System.out.println("IN CPU SCORE REDUCING 2 LATE ROUND");
+                i = 0;
+                while(i < 4 & !action) {
+                    // Check if row 1 value is not cleared, not revealed and a high value, if it is then replace it
+                    if(!board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed() && board.getGrid()[0][i].getValue() > 8) {
+                        System.out.println("swap row 1");
+                        stage.setSwapFlag(true);
+                        stage.cardAction(i); 
+                        action = true;
+                    } else if(!board.getGrid()[1][i].getIsCleared() && board.getGrid()[1][i].getRevealed() && board.getGrid()[1][i].getValue() > 8) {
+                        System.out.println("swap row 2");
+                        stage.setSwapFlag(true);
+                        stage.cardAction(i + 4); 
+                        action = true;
+                    } else if(!board.getGrid()[2][i].getIsCleared() && board.getGrid()[2][i].getRevealed() && board.getGrid()[2][i].getValue() > 8) {
+                        System.out.println("swap row 3");
+                        stage.setSwapFlag(true);
+                        stage.cardAction(i + 8); 
+                        action = true;
+                    }
+                i++;
+                }
+            }
+            /* 6: Re-draw
+                - If none of the above conditions are met, draw a new card and go through them again
+            */
         }
         });
             timer.setRepeats(false);
