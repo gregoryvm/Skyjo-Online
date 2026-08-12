@@ -330,7 +330,7 @@ public class Game {
         return roundScores[pid][round];
     }
     
-    public void cpuTurn() {   
+    public void cpuTurn(boolean hasDrawn) {   
         System.out.println("In CPU Turn");
         System.out.println("turnCount = " + turnCount);
         System.out.println("CPU Turn #" + turnCount / playerIds.length);
@@ -903,6 +903,96 @@ public class Game {
             /* 6: Re-draw
                 - If none of the above conditions are met, draw a new card and go through them again
             */
+            if(!action && !hasDrawn) {
+                try {
+                    submitDraw(getCurrentPlayer());
+                } catch(InvalidPlayerTurnException e2) {
+                    Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE,null,e2);
+                }
+                cpuTurn(true);
+            }
+            
+            /* 7: Default move
+                - If you'd go out with the highest score replace your highest card with the draw card
+                - Swap the card with the highest value card if the number is sub 5
+                    - only do this late round
+                - Flip if the number is 5+
+                - If theres, no card to flip, swap with the highest card
+            */
+            if(!action){
+                
+                int highestPlayer = 0;
+                int highestVal = -3;
+                int highestCard = 0;
+                int counter = 0;
+                
+                // Check if board is highest revealed score
+                for(int j = 0; i < playerIds.length; i++) {
+                    if(playerBoards.get(j).getRevealedScore() > playerBoards.get(highestPlayer).getRevealedScore()) {
+                        highestPlayer = j;
+                    }
+                }
+                
+                // Check for the position and value of the highest card in player board
+                for(int j = 0; i < 3; j++) {
+                    for(int k = 0; k < 4; k++) {
+                        if(board.getGrid()[j][k].getValue() > highestVal && board.getGrid()[j][k].getRevealed() && !board.getGrid()[j][k].getIsCleared()) {
+                            highestVal = board.getGrid()[j][k].getValue();
+                            highestCard = counter;
+                        }
+                        counter++;
+                    }
+                }
+                
+                // If highest score and would go out from a flip, swap with the highest value card
+                if(board.revealedCount() == 11 && highestPlayer == getCurrentPlayerVal()){
+                
+                    System.out.println("swap card " + highestCard);
+                    stage.setSwapFlag(true);
+                    stage.cardAction(highestCard); 
+                    action = true;
+                        
+                // If drawn card is less than 5 and it's late round, swap it with the highest value card 
+                } else if(drawVal < 5 && (getTurnCount()/playerIds.length) > 11) {
+                    
+                    System.out.println("swap card " + highestCard);
+                    stage.setSwapFlag(true);
+                    stage.cardAction(highestCard); 
+                    action = true;
+                  
+                // Otherwise, if there's atleast one unrevealed card flip it
+                } else if(board.revealedCount() < 12) {
+                    int l;
+                    int m;
+                    
+                    counter = 0;
+                    l = 0;
+                    
+                    while(l < 3 && !action) {
+                        m = 0;
+                        while(m < 4 && !action) {
+                            if(!board.getGrid()[l][m].getRevealed() && !board.getGrid()[l][m].getIsCleared()) {
+                                System.out.println("swap card " + counter);
+                                stage.setSwapFlag(true);
+                                stage.cardAction(counter); 
+                                action = true;
+                            }
+                        counter++;    
+                        m++;    
+                        }
+                    l++;    
+                    }
+                
+                // If all of the above aren't possible, swap it with the highest value card 
+                } else {
+                    
+                    System.out.println("swap card " + highestCard);
+                    stage.setSwapFlag(true);
+                    stage.cardAction(highestCard); 
+                    action = true;
+                    
+                }
+            }
         }
         });
             timer.setRepeats(false);
@@ -912,7 +1002,7 @@ public class Game {
     public void beginTurn() {
         // Check if it's a CPU turn and play their action
         if(!stage.bots.get(getCurrentPlayerVal())){
-            cpuTurn();
+            cpuTurn(false);
         }
     }     
 }
