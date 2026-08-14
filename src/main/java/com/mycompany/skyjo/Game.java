@@ -209,6 +209,7 @@ public class Game {
             // If it's a player's first turn, let them flip two cards 
         } else {
             currentPlayer = (currentPlayer + 1) % playerIds.length;
+            System.out.println("NEW PLAYER = " + playerIds[currentPlayer]);
             turnsRemaining--;
             setTurnCount(getTurnCount() + 1);
             
@@ -331,13 +332,13 @@ public class Game {
     }
     
     public void cpuTurn(boolean hasDrawn) {   
-        System.out.println("In CPU Turn");
         System.out.println("turnCount = " + turnCount);
         System.out.println("CPU Turn #" + turnCount / playerIds.length);
         System.out.println("getCurrentPlayerVal() + 1 = " + getCurrentPlayerVal());
         SkyjoBoard board = playerBoards.get(getCurrentPlayerVal());
-        Timer timer = new Timer(500, e -> {
+        //Timer timer = new Timer(500, e -> {
         int drawVal = getDiscardTop().getValue();
+        int cpuPlayer = getCurrentPlayerVal();
         boolean action = false;
         // On first turn of round flip two random cards
         if(turnCount == getCurrentPlayerVal() + 1) {
@@ -349,7 +350,6 @@ public class Game {
             
             while(board.revealedCount() < 2) {
                 while(board.getGrid()[rowIndex][colIndex].getRevealed() == true) {
-                    System.out.println("col = " + colIndex + ", row =" + rowIndex);
                     card = (int)(1 + Math.random() * 11);
                     rowIndex = (card / 4);
                     colIndex = (card % 4);
@@ -368,37 +368,20 @@ public class Game {
             */
             int i = 0;
             while(i < 4 && !action) {
-                System.out.println("i = " + i);
-                System.out.println("drawVal = " + drawVal);
-                System.out.println("[0][i]  = " + board.getGrid()[0][i].getValue());
-                System.out.println("[0][1]  = " + board.getGrid()[1][i].getValue());
-                System.out.println("[0][2]  = " + board.getGrid()[2][i].getValue());
                 int currVal = board.getGrid()[0][i].getValue();
                 if(drawVal == currVal) {
                     if(board.getGrid()[1][i].getValue() == currVal && board.getGrid()[1][i].getRevealed() && !board.getGrid()[1][i].getIsCleared() && currVal > 0) {
-                        System.out.println("[0][i] = " + board.getGrid()[0][i].getValue());
-                        System.out.println("[1][i] = " + board.getGrid()[1][i].getValue());
-                        System.out.println("drawVal = " + drawVal);
-                        
                         stage.setSwapFlag(true);
                         stage.cardAction(i + 8);
                         action = true;
-                    } else if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared() && currVal > 0) {
-                        System.out.println("[0][i] = " + board.getGrid()[0][i].getValue());
-                        System.out.println("[2][i] = " + board.getGrid()[2][i].getValue());
-                        System.out.println("drawVal = " + drawVal);
-                        
+                    } else if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared() && currVal > 0) {  
                         stage.setSwapFlag(true);
                         stage.cardAction(i + 4);
                         action = true;
                     }
                 } else {
                     currVal = board.getGrid()[1][i].getValue();
-                    if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared() && drawVal == currVal && currVal > 0) {
-                        System.out.println("[1][i] = " + board.getGrid()[1][i].getValue());
-                        System.out.println("[2][i] = " + board.getGrid()[2][i].getValue());
-                        System.out.println("drawVal = " + drawVal);
-                        
+                    if(board.getGrid()[2][i].getValue() == currVal && board.getGrid()[2][i].getRevealed() && !board.getGrid()[2][i].getIsCleared() && drawVal == currVal && currVal > 0) {                      
                         stage.setSwapFlag(true);
                         stage.cardAction(i);
                         action = true;
@@ -416,14 +399,9 @@ public class Game {
                 int val2;
                 i = 0;
                 while(i < 4 && !action) {
-                    System.out.println("i = " + i);
                     int currVal = board.getGrid()[0][i].getValue();
                     int currVal2 = board.getGrid()[1][i].getValue();
                     int currVal3 = board.getGrid()[2][i].getValue();
-                    System.out.println("drawVal = " + drawVal);
-                    System.out.println("currVal = " + currVal);
-                    System.out.println("currVal2 = " + currVal2);
-                    System.out.println("currVal3 = " + currVal3);
                     
                     if(drawVal == currVal && !board.getGrid()[0][i].getIsCleared() && board.getGrid()[0][i].getRevealed()) {
                         
@@ -440,8 +418,6 @@ public class Game {
                         } else {
                             val2 = 13;
                         }
-                        System.out.println("val1 = " + val1);
-                        System.out.println("val2 = " + val2);
                         
                         // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
                         // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
@@ -481,10 +457,7 @@ public class Game {
                         } else {
                             val2 = 13;
                         }
-                        
-                        System.out.println("val1 = " + val1);
-                        System.out.println("val2 = " + val2);
-                        
+
                         // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
                         // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
                         if(val1 > val2 && val1 > 0) {
@@ -523,11 +496,7 @@ public class Game {
                         } else {
                             val2 = 13;
                         }
-                        
-                        System.out.println("val1 = " + val1);
-                        System.out.println("val2 = " + val2);
-                        
-                        
+           
                         // The nested if ensures the CPU doesnt just infinitely swap numbers less than 1
                         // with themselves. Also if theres already 2 matching numbers lower than the potential new match dont do it.
                         if(val1 > val2 && val1 > 0) {
@@ -994,14 +963,19 @@ public class Game {
                 }
             }
         }
-        });
-            timer.setRepeats(false);
-            timer.start(); 
+        //});
+        //    timer.setRepeats(false);
+        //    timer.start(); 
+        //try {
+        //   Thread.sleep(500);
+        //} catch(InterruptedException e) {
+        //   Thread.currentThread().interrupt();
+        //}
     }
     
     public void beginTurn() {
         // Check if it's a CPU turn and play their action
-        if(!stage.bots.get(getCurrentPlayerVal())){
+        if(stage.bots.get(getCurrentPlayerVal())){
             cpuTurn(false);
         }
     }     

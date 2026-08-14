@@ -223,13 +223,14 @@ public class GameStage extends javax.swing.JFrame {
                 Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE,null,e);
             }
             setButtonIcons();
-            Timer timer = new Timer(500, e -> {
+            if(bots.get(game.getCurrentPlayerVal())){
+                //Timer timer = new Timer(500, e -> {
                 game.incrementTurn(game.getCurrentPlayer());
-                
-                if(game.getTurnCount() == (game.getPlayers().length + 1)) {
+                setButtonIcons();
+                /*if(game.getTurnCount() == (game.getPlayers().length + 1)) {
                     System.out.println("START NEW ROUND FROM GAMESTAGE");
                     game.startNewRound();
-                }
+                }*/
                 
                 swapFlag = false;
                 hasDrawn = false;
@@ -241,9 +242,44 @@ public class GameStage extends javax.swing.JFrame {
                 currCard.setIcon(new ImageIcon(
                 getClass().getResource("/images/PNGs/" + file)
                 ));
-            });
-            timer.setRepeats(false);
-            timer.start(); 
+                
+                //try {
+                //     Thread.sleep(500);
+                //} catch(InterruptedException e) {
+                //    Thread.currentThread().interrupt();
+                //}
+                //});
+                //timer.setRepeats(false);
+                //timer.start(); 
+            } else {
+                //Timer timer = new Timer(500, e -> {
+                game.incrementTurn(game.getCurrentPlayer());
+                setButtonIcons();
+                /*if(game.getTurnCount() == (game.getPlayers().length + 1)) {
+                    System.out.println("START NEW ROUND FROM GAMESTAGE");
+                    game.startNewRound();
+                }*/
+                
+                swapFlag = false;
+                hasDrawn = false;
+                drawButton.setVisible(true);
+                this.setPidName(game.getCurrentPlayer());
+                setButtonIcons();
+                
+                String file = game.getTopCardImage(game.getDiscardTop()) + ".png";
+                currCard.setIcon(new ImageIcon(
+                getClass().getResource("/images/PNGs/" + file)
+                ));
+                
+            //try {
+            //     Thread.sleep(500);
+            //} catch(InterruptedException e) {
+            //    Thread.currentThread().interrupt();
+            //}
+            //});
+            //timer.setRepeats(false);
+            //timer.start(); 
+            }
         } 
     }
     
@@ -570,7 +606,7 @@ public class GameStage extends javax.swing.JFrame {
         SkyjoBoard currBoard = game.getPlayerBoard(game.getCurrentPlayer());
         
         // If it's a CPU's turn, run through the choices hierarchy again
-        game.beginTurn();
+        //game.beginTurn();
         
         if(currBoard.revealedCount() < 2){
             JLabel message = new JLabel("You must flip until you have 2 cards revealed!");

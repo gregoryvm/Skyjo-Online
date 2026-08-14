@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class AddPlayerNames extends javax.swing.JFrame {
     public ArrayList<String> playerIds;
-    public ArrayList<Boolean> realPlayers;
+    public ArrayList<Boolean> botPlayers;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddPlayerNames.class.getName());
     private boolean playerAdded;
     
@@ -29,7 +29,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
         initComponents();
         
         playerAdded = false;
-        realPlayers  = new ArrayList<>();
+        botPlayers  = new ArrayList<>();
         setTitle("Skyjo Online");
         setIconImage(new ImageIcon(
         getClass().getResource("/images/PNGs/icon.png")
@@ -200,7 +200,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, message);
         } else {
             Point location = this.getLocation();
-            GameStage gameStage = new GameStage(playerIds, realPlayers);
+            GameStage gameStage = new GameStage(playerIds, botPlayers);
             gameStage.setLocation(location);
             gameStage.setVisible(true);
             this.dispose();
@@ -229,7 +229,7 @@ public class AddPlayerNames extends javax.swing.JFrame {
         } else {
             String name = pidTextBox.getText().trim();
             playerIds.add(name);
-            realPlayers.add(true);
+            botPlayers.add(false);
             switch(playerIds.size()) {
                 case 1: pid1Label.setText("Player 1: " + playerIds.get(playerIds.size()-1));
                 error = false;
@@ -258,9 +258,9 @@ public class AddPlayerNames extends javax.swing.JFrame {
             message.setFont(new Font("Arial",Font.BOLD,48));
             JOptionPane.showMessageDialog(null, message);
         } else {  
-            String name = "CPU " + (Collections.frequency(realPlayers, false) + 1);
+            String name = "CPU " + (Collections.frequency(botPlayers, true) + 1);
             playerIds.add(name);
-            realPlayers.add(false);
+            botPlayers.add(true);
             switch(playerIds.size()) {
                 case 1: pid1Label.setText("Player 1: " + playerIds.get(playerIds.size()-1));
                 break;
