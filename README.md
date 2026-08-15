@@ -31,15 +31,15 @@ Download the latest release [here](https://github.com/gregoryvm/Skyjo-Online/rel
 Instructions for downloading and running the game are included with every release.
 
 ## Screenshots
-![Home Screen](screenshots/homescreen.png)
+![Home Screen](src/main/java/com/mycompany/skyjo/images/screenshots/homescreen.PNG)
 
-![Rule Book](screenshots/rulebook.png)
+![Rule Book](src/main/java/com/mycompany/skyjo/images/screenshots/rulebook.PNG)
 
-![Add Players](screenshots/playerscreen.png)
+![Add Players](src/main/java/com/mycompany/skyjo/images/screenshots/playerscreen.PNG)
 
-![Board View](screenshots/boardscreen.png)
+![Board View](src/main/java/com/mycompany/skyjo/images/screenshots/boardscreen.PNG)
 
-![Score Board](screenshots/scoreboard.png)
+![Score Board](src/main/java/com/mycompany/skyjo/images/screenshots/scoreboard.PNG)
 
 ## Future Updates
 - **CPU players** - In Progess
