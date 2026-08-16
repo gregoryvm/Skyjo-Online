@@ -42,7 +42,7 @@ Instructions for downloading and running the game are included with every releas
 ![Score Board](src/main/java/com/mycompany/skyjo/images/screenshots/scoreboard.PNG)
 
 ## Future Updates
-- **CPU players** - In Progess
+- **CPU players** - In Progress
 - Online multiplayer
 - Options for different card art & board backgrounds
 - Improved UI animations and transitions
